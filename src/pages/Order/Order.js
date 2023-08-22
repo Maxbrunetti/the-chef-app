@@ -1,18 +1,6 @@
 import './../../styles/Order.css';
 import React, { Component, useState, useReducer } from 'react';
 
-class MyComponent extends Component {
-  handleTouchStart = event => {
-    event.preventDefault();
-    const touchY = event.touches[0].clientY;
-    console.log('Y-coordinate of touch:', touchY);
-  };
-
-  render() {
-    return <div onTouchStart={this.handleTouchStart}>Touch Me</div>;
-  }
-}
-
 function reducer(state, action) {
   const newState = {
     vegetables: {
@@ -24,12 +12,35 @@ function reducer(state, action) {
   };
   return newState;
 }
+
 function Order() {
+  const [touchStart, setTouchStart] = useState();
+  const [touchMove, setTouchMove] = useState();
+
+  function changeInputValue(e, key) {
+    const ingredient = key;
+    if (touchStart > touchMove) {
+      e.target.value++;
+      setVegetableQuantities({
+        ...vegetableQuantities,
+        [ingredient]: e.target.value++,
+      });
+    }
+    if (touchStart < touchMove) {
+      e.target.value--;
+      setVegetableQuantities({
+        ...vegetableQuantities,
+        [ingredient]: e.target.value--,
+      });
+    }
+    console.log(vegetableQuantities);
+  }
+
   const [vegetableQuantities, setVegetableQuantities] = useState({
-    carrot: 1, // Initial quantity
-    onion: 2, // Initial quantity
-    potato: 5, // Initial quantity
-    tomatoes: 10, // Initial quantity
+    carrot: 1,
+    onion: 2,
+    potato: 5,
+    tomatoes: 10,
   });
 
   function displayIngredients(obj) {
@@ -42,8 +53,15 @@ function Order() {
             <div className="ingredient-container">
               <p className="ingredient-name">{key}</p>
               <input
+                className="ingredient-quantity"
+                key={key}
                 value={vegetableQuantities[key]}
-                onTouchMove={e => console.log(e)}
+                onTouchStart={e => setTouchStart(e.touches[0].clientY)}
+                onTouchMove={e => {
+                  setTouchMove(e.touches[0].clientY);
+                  console.log(e.target);
+                  changeInputValue(e, key);
+                }}
                 onChange={e => console.log(e)}
               />
             </div>
