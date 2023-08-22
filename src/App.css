@@ -3,9 +3,14 @@
   padding: 0;
   box-sizing: border-box;
   font-size: 62.5%;
+  overflow: hidden;
 }
 main {
-  margin-top: 1rem;
+  padding-top: 6rem;
+  height: 100vh;
+}
+section {
+  height: 100%;
 }
 :root {
   --red-color: #ffb8b8;
@@ -21,11 +26,24 @@ a {
   text-decoration: none;
 }
 
-.btn a {
+.btn {
   font-size: 2rem;
   padding: 1rem 2rem;
   background: var(--light-color);
   border: 1px solid;
   border-color: var(--dark-color);
   border-radius: 1rem;
+  transition: all 0.3s ease;
+  color: var(--dark-color);
+  cursor: pointer;
+}
+
+.btn:visited {
+  color: var(--dark-color);
+}
+
+.btn:hover {
+  background-color: var(--dark-color);
+  border-color: var(--light-color);
+  color: var(--light-color);
 }

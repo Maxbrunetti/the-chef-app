@@ -1,0 +1,13 @@
+.home {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  align-content: space-between;
+  flex-direction: column;
+}
+
+.btn {
+  width: 80vw;
+  text-align: center;
+  margin-top: 10vh;
+}

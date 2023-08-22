@@ -22,7 +22,7 @@ function Navbar() {
         </div>
         <p className="title">THE CHEF APP</p>
       </div>
-      <ul className={`nav-elements ${menuOpen ? '' : 'hidden'}`}>
+      <ul className={`nav-elements ${menuOpen ? 'active' : 'hidden'}`}>
         <li>
           <Link to="/">Home</Link>
         </li>
