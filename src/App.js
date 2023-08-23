@@ -4,8 +4,24 @@ import Navbar from './components/ui/Navbar';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Recipes from './pages/Recipes/Recipes';
 import Order from './pages/Order/Order';
+import { useState, useEffect } from 'react';
 
 function App() {
+  const [backgroundColor, setBackgroundColor] = useState('');
+  const [title, setTitle] = useState('');
+
+  useEffect(() => {
+    // Update currentPage based on the current route
+    const currentPath = window.location.pathname;
+    if (currentPath === '/order') {
+      setBackgroundColor('var(--green-color)');
+      setTitle('VEGETABLES');
+    } else {
+      setBackgroundColor('var(--light-color)');
+      setTitle('THE CHEF APP');
+    }
+  }, []);
+
   return (
     <>
       <header className={'header'}></header>
@@ -16,8 +32,8 @@ function App() {
           <meta name="og:image" content="" />
         </head>
         <body> */}
-        <Navbar />
-        <main>
+        <Navbar title={title} />
+        <main style={{ background: backgroundColor }}>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/order" element={<Order />} />

@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import './../../styles/Navbar.css';
 import { useState } from 'react';
 
-function Navbar() {
+function Navbar({ title }) {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -20,7 +20,7 @@ function Navbar() {
           <div className="bar"></div>
           <div className="bar"></div>
         </div>
-        <p className="title">THE CHEF APP</p>
+        <p className="title">{title}</p>
       </div>
       <ul className={`nav-elements ${menuOpen ? 'active' : 'hidden'}`}>
         <li>

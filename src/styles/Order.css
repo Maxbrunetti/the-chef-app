@@ -32,10 +32,15 @@ p {
 }
 
 .ingredient-quantity {
+  background: none;
   border: 0px;
   border-left: 1px solid rgb(0, 0, 0, 0.2);
   border-bottom: 1px solid #000;
   padding: 1.5rem;
   font-size: 2rem;
   text-align: center;
+}
+
+.order {
+  background-color: var(--green-color);
 }

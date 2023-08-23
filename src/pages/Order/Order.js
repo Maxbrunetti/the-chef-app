@@ -1,39 +1,52 @@
 import './../../styles/Order.css';
-import React, { Component, useState, useReducer } from 'react';
+import React, { useEffect, useState, useReducer } from 'react';
 
 function reducer(state, action) {
-  const newState = {
-    vegetables: {
-      carrot: '1kg',
-      onion: '2kg',
-      potato: '5kg',
-      tomatoes: '10kg',
-    },
-  };
-  return newState;
+  const ingredient = action.ing;
+  console.log(action);
+  if (action.type === 'vegetables') {
+    return {
+      ...state,
+      vegetables: {
+        ...state.vegetables,
+        [ingredient]: action.newValue,
+      },
+    };
+  }
+  return state;
 }
-
 function Order() {
+  const TIME_DELAY = 70;
   const [touchStart, setTouchStart] = useState();
   const [touchMove, setTouchMove] = useState();
 
   function changeInputValue(e, key) {
     const ingredient = key;
-    if (touchStart > touchMove) {
-      e.target.value++;
-      setVegetableQuantities({
-        ...vegetableQuantities,
-        [ingredient]: e.target.value++,
-      });
-    }
+    const currentValue = parseFloat(e.target.value);
+    const increment = currentValue < 3 ? 0.1 : 0.5;
+
     if (touchStart < touchMove) {
-      e.target.value--;
-      setVegetableQuantities({
-        ...vegetableQuantities,
-        [ingredient]: e.target.value--,
-      });
+      // Decrease the value
+      if (currentValue > 0) {
+        setTimeout(() => {
+          const newValue = Math.max(0, (currentValue - increment).toFixed(1));
+          e.target.value = newValue;
+          dispatch({ type: 'vegetables', ing: ingredient, newValue: newValue });
+          //   setVegetableQuantities({
+          //     ...vegetableQuantities,
+          //     [ingredient]: newValue,
+          //   });
+        }, TIME_DELAY);
+      }
     }
-    console.log(vegetableQuantities);
+    if (touchStart > touchMove) {
+      // Increase the value
+      setTimeout(() => {
+        const newValue = (currentValue + increment).toFixed(1);
+        e.target.value = newValue;
+        dispatch({ type: 'vegetables', ing: ingredient, newValue: newValue });
+      }, TIME_DELAY);
+    }
   }
 
   const [vegetableQuantities, setVegetableQuantities] = useState({
@@ -55,14 +68,13 @@ function Order() {
               <input
                 className="ingredient-quantity"
                 key={key}
-                value={vegetableQuantities[key]}
+                value={state.vegetables[key] + 'kg'}
                 onTouchStart={e => setTouchStart(e.touches[0].clientY)}
                 onTouchMove={e => {
                   setTouchMove(e.touches[0].clientY);
-                  console.log(e.target);
                   changeInputValue(e, key);
                 }}
-                onChange={e => console.log(e)}
+                onChange={e => ''}
               />
             </div>
           </div>
@@ -75,13 +87,16 @@ function Order() {
 
   const [next, setNext] = useState('Vegetables');
   const [state, dispatch] = useReducer(reducer, {
-    carrot: '1kg',
-    onion: '2kg',
-    potato: '5kg',
+    vegetables: {
+      carrots: 1,
+      onions: 2,
+      potatoes: 5,
+      tomatoes: 10,
+    },
   });
   return (
-    <section className="main">
-      {displayIngredients(vegetableQuantities)}
+    <section className="main order">
+      {displayIngredients(state.vegetables)}
       <div className="btn-container">
         <button className="btn">Copy</button>
         <button className="btn">{next}</button>
