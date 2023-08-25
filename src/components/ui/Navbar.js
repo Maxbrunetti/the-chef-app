@@ -1,9 +1,22 @@
 import { Link } from 'react-router-dom';
 import './../../styles/Navbar.css';
 import { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 
-function Navbar({ title }) {
+function Navbar({ list }) {
+  const location = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
+  function setTitle() {
+    if (location.pathname === '/order') {
+      return list;
+    }
+    if (location.pathname === '/') {
+      return 'THE CHEF APP';
+    }
+    if (location.pathname === '/recipes') {
+      return 'RECIPES';
+    } else return 'THE CHEF APP';
+  }
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
@@ -20,14 +33,18 @@ function Navbar({ title }) {
           <div className="bar"></div>
           <div className="bar"></div>
         </div>
-        <p className="title">{title}</p>
+        <p className="title">{setTitle().toUpperCase()}</p>
       </div>
       <ul className={`nav-elements ${menuOpen ? 'active' : 'hidden'}`}>
         <li>
-          <Link to="/">Home</Link>
+          <Link to="/" onClick={toggleMenu}>
+            Home
+          </Link>
         </li>
         <li>
-          <Link to="/order">Order</Link>
+          <Link to="/order" onClick={toggleMenu}>
+            Order
+          </Link>
         </li>
       </ul>
     </nav>

@@ -3,24 +3,31 @@ import Home from './pages/Home';
 import Navbar from './components/ui/Navbar';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Recipes from './pages/Recipes/Recipes';
+import AddRecipes from './pages/Recipes/AddRecipes';
 import Order from './pages/Order/Order';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 function App() {
-  const [backgroundColor, setBackgroundColor] = useState('');
-  const [title, setTitle] = useState('');
+  const [list, setList] = useState('vegetables');
 
-  useEffect(() => {
-    // Update currentPage based on the current route
-    const currentPath = window.location.pathname;
-    if (currentPath === '/order') {
-      setBackgroundColor('var(--green-color)');
-      setTitle('VEGETABLES');
-    } else {
-      setBackgroundColor('var(--light-color)');
-      setTitle('THE CHEF APP');
+  function checkList(list) {
+    switch (list) {
+      case 'vegetables':
+        return 'meat';
+
+      case 'meat':
+        return 'fish';
+
+      case 'fish':
+        return 'spices';
+
+      case 'spices':
+        return 'vegetables';
+
+      default:
+        return list;
     }
-  }, []);
+  }
 
   return (
     <>
@@ -32,12 +39,18 @@ function App() {
           <meta name="og:image" content="" />
         </head>
         <body> */}
-        <Navbar title={title} />
-        <main style={{ background: backgroundColor }}>
+        <Navbar list={list} />
+        <main>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/order" element={<Order />} />
+            <Route
+              path="/order"
+              element={
+                <Order list={list} setList={setList} checkList={checkList} />
+              }
+            />
             <Route path="/recipes" element={<Recipes />} />
+            <Route path="/addrecipes" element={<AddRecipes />} />
           </Routes>
         </main>
         <footer></footer>

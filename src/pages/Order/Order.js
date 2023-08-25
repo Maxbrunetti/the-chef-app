@@ -1,9 +1,8 @@
 import './../../styles/Order.css';
-import React, { useEffect, useState, useReducer } from 'react';
+import React, { useState, useReducer } from 'react';
 
 function reducer(state, action) {
   const ingredient = action.ing;
-  console.log(action);
   if (action.type === 'vegetables') {
     return {
       ...state,
@@ -13,9 +12,19 @@ function reducer(state, action) {
       },
     };
   }
+  if (action.type === 'meat') {
+    return {
+      ...state,
+      meat: {
+        ...state.meat,
+        [ingredient]: action.newValue,
+      },
+    };
+  }
   return state;
 }
-function Order() {
+
+function Order({ list, setList, checkList }) {
   const TIME_DELAY = 70;
   const [touchStart, setTouchStart] = useState();
   const [touchMove, setTouchMove] = useState();
@@ -31,11 +40,7 @@ function Order() {
         setTimeout(() => {
           const newValue = Math.max(0, (currentValue - increment).toFixed(1));
           e.target.value = newValue;
-          dispatch({ type: 'vegetables', ing: ingredient, newValue: newValue });
-          //   setVegetableQuantities({
-          //     ...vegetableQuantities,
-          //     [ingredient]: newValue,
-          //   });
+          dispatch({ type: list, ing: ingredient, newValue: newValue });
         }, TIME_DELAY);
       }
     }
@@ -44,31 +49,23 @@ function Order() {
       setTimeout(() => {
         const newValue = (currentValue + increment).toFixed(1);
         e.target.value = newValue;
-        dispatch({ type: 'vegetables', ing: ingredient, newValue: newValue });
+        dispatch({ type: list, ing: ingredient, newValue: newValue });
       }, TIME_DELAY);
     }
   }
 
-  const [vegetableQuantities, setVegetableQuantities] = useState({
-    carrot: 1,
-    onion: 2,
-    potato: 5,
-    tomatoes: 10,
-  });
-
-  function displayIngredients(obj) {
+  function displayIngredients(ingredientsList) {
     const ingredients = [];
-
-    for (const key in obj) {
-      if (obj.hasOwnProperty(key)) {
+    for (const key in ingredientsList) {
+      if (ingredientsList.hasOwnProperty(key)) {
         ingredients.push(
           <div className="order-container" key={key}>
             <div className="ingredient-container">
-              <p className="ingredient-name">{key}</p>
+              <p className="ingredient-name">{capitalizeAndAddSpaces(key)}</p>
               <input
                 className="ingredient-quantity"
                 key={key}
-                value={state.vegetables[key] + 'kg'}
+                value={state[list][key] + 'kg'}
                 onTouchStart={e => setTouchStart(e.touches[0].clientY)}
                 onTouchMove={e => {
                   setTouchMove(e.touches[0].clientY);
@@ -81,11 +78,9 @@ function Order() {
         );
       }
     }
-
     return ingredients;
   }
 
-  const [next, setNext] = useState('Vegetables');
   const [state, dispatch] = useReducer(reducer, {
     vegetables: {
       carrots: 1,
@@ -93,13 +88,45 @@ function Order() {
       potatoes: 5,
       tomatoes: 10,
     },
+    meat: {
+      ribs: 5,
+      chickenBreast: 20,
+      liver: 2,
+    },
   });
+  function capitalizeAndAddSpaces(inputText) {
+    let result = '';
+    result += inputText.charAt(0).toUpperCase();
+    for (let i = 1; i < inputText.length; i++) {
+      const currentChar = inputText.charAt(i);
+      if (currentChar === currentChar.toUpperCase() && i > 0) {
+        result += ' ';
+      }
+      result += currentChar;
+    }
+
+    return result;
+  }
+
+  function copyList() {
+    let copiedText = [];
+    for (const key in state[list]) {
+      copiedText.push(`${capitalizeAndAddSpaces(key)}: ${state[list][key]}`);
+    }
+    copiedText = copiedText.join('\n');
+    return navigator.clipboard.writeText(copiedText);
+  }
+
   return (
-    <section className="main order">
-      {displayIngredients(state.vegetables)}
+    <section className={`main ${list}`}>
+      {displayIngredients(state[list])}
       <div className="btn-container">
-        <button className="btn">Copy</button>
-        <button className="btn">{next}</button>
+        <button className="btn" onClick={copyList}>
+          Copy
+        </button>
+        <button className="btn" onClick={() => setList(checkList(list))}>
+          Next List
+        </button>
       </div>
     </section>
   );

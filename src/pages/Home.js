@@ -11,6 +11,9 @@ function Home() {
       <Link className={'btn'} to="/recipes">
         Recipes
       </Link>
+      <Link className={'btn'} to="/addrecipes">
+        Add Recipes
+      </Link>
     </section>
   );
 }
