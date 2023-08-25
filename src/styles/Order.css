@@ -6,9 +6,10 @@ p {
   bottom: 0;
 }
 
-.btn {
+.btnOrder {
   width: 50vw;
-  border-radius: 0;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
   bottom: 0;
 }
 

@@ -11,16 +11,10 @@ import {
 } from '@chakra-ui/react';
 
 function AddRecipes() {
-  const initialIngredients = Array.from({ length: 20 }, () => ({
-    ingredient: '',
-    quantity: '',
-    list: '',
-  }));
-
   const [recipeForm, setRecipeForm] = useState({
     name: '',
     portions: '',
-    ingredients: initialIngredients,
+    ingredients: [{ ingredient: '', weight: '', list: '' }],
     alergens: '',
   });
 
@@ -38,64 +32,69 @@ function AddRecipes() {
       }, 1000);
     });
   }
-
-  function newIngredientInput(quantity) {
-    let ingredient = [];
-    for (let i = 0; i < quantity; i++) {
-      ingredient.push(
-        <FormControl
-          className="formGroup ingredientInput"
-          key={'ingredient ' + i}
+  let currentIndex = 0;
+  function addIngredient() {
+    setRecipeForm({
+      ...recipeForm,
+      ingredients: [
+        ...recipeForm.ingredients,
+        { ingredient: '', weight: '', list: '' },
+      ],
+    });
+  }
+  function newIngredientInput() {
+    return recipeForm.ingredients.map((ing, i) => (
+      <FormControl
+        className="formGroup ingredientInput"
+        key={'ingredient ' + i}
+      >
+        <Input
+          gridArea={'ingredient'}
+          placeholder="Ingredient "
+          value={recipeForm.ingredients[i].ingredient}
+          onChange={e => {
+            const newIngredients = [...recipeForm.ingredients];
+            newIngredients[i] = {
+              ...newIngredients[i],
+              ingredient: e.target.value,
+            };
+            setRecipeForm({ ...recipeForm, ingredients: newIngredients });
+          }}
+        />
+        <Input
+          gridArea={'weight'}
+          placeholder="Kg"
+          type="number"
+          value={recipeForm.ingredients[i].weight}
+          onChange={e => {
+            const newIngredients = [...recipeForm.ingredients];
+            newIngredients[i] = {
+              ...newIngredients[i],
+              weight: e.target.value,
+            };
+            setRecipeForm({ ...recipeForm, ingredients: newIngredients });
+          }}
+        />
+        <Select
+          gridArea={'type'}
+          placeholder="Type"
+          value={recipeForm.ingredients[i].list}
+          onChange={e => {
+            const newIngredients = [...recipeForm.ingredients];
+            newIngredients[i] = {
+              ...newIngredients[i],
+              list: e.target.value,
+            };
+            setRecipeForm({ ...recipeForm, ingredients: newIngredients });
+          }}
         >
-          <Input
-            gridArea={'ingredient'}
-            placeholder="Ingredient "
-            value={recipeForm.ingredients[i].ingredient}
-            onChange={e => {
-              const newIngredients = [...recipeForm.ingredients];
-              newIngredients[i] = {
-                ...newIngredients[i],
-                ingredient: e.target.value,
-              };
-              setRecipeForm({ ...recipeForm, ingredients: newIngredients });
-            }}
-          />
-          <Input
-            gridArea={'weight'}
-            placeholder="Kg"
-            type="number"
-            value={recipeForm.ingredients[i].weight}
-            onChange={e => {
-              const newIngredients = [...recipeForm.ingredients];
-              newIngredients[i] = {
-                ...newIngredients[i],
-                weight: e.target.value,
-              };
-              setRecipeForm({ ...recipeForm, ingredients: newIngredients });
-            }}
-          />
-          <Select
-            gridArea={'type'}
-            placeholder="Type"
-            value={recipeForm.ingredients[i].type}
-            onChange={e => {
-              const newIngredients = [...recipeForm.ingredients];
-              newIngredients[i] = {
-                ...newIngredients[i],
-                type: e.target.value,
-              };
-              setRecipeForm({ ...recipeForm, ingredients: newIngredients });
-            }}
-          >
-            <option value="vegetables">Vegetables</option>
-            <option value="meat">Meat</option>
-            <option value="fish">Fish</option>
-            <option value="spices">Spices</option>
-          </Select>
-        </FormControl>
-      );
-    }
-    return ingredient;
+          <option value="vegetables">Vegetables</option>
+          <option value="meat">Meat</option>
+          <option value="fish">Fish</option>
+          <option value="spices">Spices</option>
+        </Select>
+      </FormControl>
+    ));
   }
 
   return (
@@ -134,11 +133,28 @@ function AddRecipes() {
         </FormErrorMessage>
       </FormControl>
       <p>Ingredients</p>
-      {newIngredientInput(20)}
-
-      <Button mt={4} isLoading={isSubmitting} type="submit" className="btn">
-        Submit
+      {newIngredientInput()}
+      <Button
+        onClick={() => {
+          addIngredient();
+          console.log(recipeForm);
+        }}
+        className="btn"
+        style={{ margin: 0 }}
+      >
+        + Ingredient
       </Button>
+      <div className="btn-container">
+        <Button
+          mt={4}
+          isLoading={isSubmitting}
+          type="submit"
+          className="btn btnRecipe"
+          onClick={() => console.log(recipeForm)}
+        >
+          Submit
+        </Button>
+      </div>
     </form>
   );
 }

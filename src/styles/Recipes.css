@@ -9,8 +9,9 @@
 .addRecipeForm input {
   display: flex;
   width: 80vw;
-  height: 30px;
+  height: 4rem;
   text-align: center;
+  border-radius: 1rem;
 }
 
 .addRecipeForm label {
@@ -32,11 +33,15 @@
 
 .ingredientInput input {
   width: auto;
+  margin: 1px 0;
+  border-radius: 1rem;
 }
 .ingredientInput select {
-  height: 30px;
+  height: 4rem;
   display: flex;
   width: 100%;
+  margin: 1px 0;
+  border-radius: 1rem;
 }
 .addRecipeForm p {
   font-size: 2rem;
@@ -49,4 +54,10 @@ option {
   justify-content: center;
   font-size: 1.2rem;
   color: red;
+}
+
+.btnRecipe {
+  width: 100vw;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
 }

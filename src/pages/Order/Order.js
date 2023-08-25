@@ -121,10 +121,13 @@ function Order({ list, setList, checkList }) {
     <section className={`main ${list}`}>
       {displayIngredients(state[list])}
       <div className="btn-container">
-        <button className="btn" onClick={copyList}>
+        <button className="btn btnOrder" onClick={copyList}>
           Copy
         </button>
-        <button className="btn" onClick={() => setList(checkList(list))}>
+        <button
+          className="btn btnOrder"
+          onClick={() => setList(checkList(list))}
+        >
           Next List
         </button>
       </div>
