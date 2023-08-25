@@ -3,7 +3,7 @@
   padding: 0;
   box-sizing: border-box;
   font-size: 62.5%;
-  overflow: hidden;
+  overflow-x: hidden;
 }
 main {
   padding-top: 6rem;
@@ -11,6 +11,13 @@ main {
 }
 section {
   height: 100%;
+}
+
+label,
+input,
+p,
+select {
+  font-size: 2rem;
 }
 :root {
   --red-color: #ffb8b8;

@@ -1,0 +1,52 @@
+.addRecipeForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
+  text-align: center;
+}
+
+.addRecipeForm input {
+  display: flex;
+  width: 80vw;
+  height: 30px;
+  text-align: center;
+}
+
+.addRecipeForm label {
+  text-align: center;
+  padding-bottom: 1rem;
+}
+
+.formGroup {
+  margin: 2rem 0;
+}
+
+.ingredientInput {
+  display: grid;
+  grid-template-areas: 'ingredient weight type';
+  grid-template-columns: 4fr 3fr 3fr;
+  padding: 1px 0px;
+  margin: 10px 0px;
+}
+
+.ingredientInput input {
+  width: auto;
+}
+.ingredientInput select {
+  height: 30px;
+  display: flex;
+  width: 100%;
+}
+.addRecipeForm p {
+  font-size: 2rem;
+}
+option {
+  color: red;
+}
+.errorMessage {
+  display: flex;
+  justify-content: center;
+  font-size: 1.2rem;
+  color: red;
+}

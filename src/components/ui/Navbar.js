@@ -15,6 +15,9 @@ function Navbar({ list }) {
     }
     if (location.pathname === '/recipes') {
       return 'RECIPES';
+    }
+    if (location.pathname === '/addrecipes') {
+      return 'ADD RECIPES';
     } else return 'THE CHEF APP';
   }
 
