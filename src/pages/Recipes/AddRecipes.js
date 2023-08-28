@@ -1,5 +1,5 @@
-import { useState } from 'react';
 import './../../styles/Recipes.css';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import {
   FormErrorMessage,
@@ -9,8 +9,9 @@ import {
   Select,
   Button,
 } from '@chakra-ui/react';
+import setIngredients from '../../utils/setIngredients';
 
-function AddRecipes() {
+function AddRecipes({ user, setUser }) {
   const [recipeForm, setRecipeForm] = useState({
     name: '',
     portions: '',
@@ -27,12 +28,15 @@ function AddRecipes() {
   function onSubmit(values) {
     return new Promise(resolve => {
       setTimeout(() => {
+        setUser({ ...user, recipes: [...user.recipes, recipeForm] });
+        setIngredients(user);
+        // localStorage.setItem('user', JSON.stringify(recipeForm));
         alert(JSON.stringify(values, null, 2));
         resolve();
       }, 1000);
     });
   }
-  let currentIndex = 0;
+
   function addIngredient() {
     setRecipeForm({
       ...recipeForm,
@@ -150,7 +154,7 @@ function AddRecipes() {
           isLoading={isSubmitting}
           type="submit"
           className="btn btnRecipe"
-          onClick={() => console.log(recipeForm)}
+          // onClick={() => console.log(recipeForm)}
         >
           Submit
         </Button>

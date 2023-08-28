@@ -8,6 +8,16 @@ import Order from './pages/Order/Order';
 import { useState } from 'react';
 
 function App() {
+  const [user, setUser] = useState({
+    recipes: [],
+    ingredients: { vegetables: [], meat: [], fish: [], spices: [] },
+  });
+  // useEffect(() => {
+  //   if (localStorage.user) {
+  //     setUser();
+  //   }
+  // }, []);
+
   const [list, setList] = useState('vegetables');
 
   function checkList(list) {
@@ -50,7 +60,10 @@ function App() {
               }
             />
             <Route path="/recipes" element={<Recipes />} />
-            <Route path="/addrecipes" element={<AddRecipes />} />
+            <Route
+              path="/addrecipes"
+              element={<AddRecipes user={user} setUser={setUser} />}
+            />
           </Routes>
         </main>
         <footer></footer>
