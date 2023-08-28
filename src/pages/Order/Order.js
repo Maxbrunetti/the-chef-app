@@ -21,10 +21,37 @@ function reducer(state, action) {
       },
     };
   }
+  if (action.type === 'fish') {
+    return {
+      ...state,
+      fish: {
+        ...state.fish,
+        [ingredient]: action.newValue,
+      },
+    };
+  }
+  if (action.type === 'spices') {
+    return {
+      ...state,
+      spices: {
+        ...state.spices,
+        [ingredient]: action.newValue,
+      },
+    };
+  }
+  if (action.type === 'misc') {
+    return {
+      ...state,
+      misc: {
+        ...state.misc,
+        [ingredient]: action.newValue,
+      },
+    };
+  }
   return state;
 }
 
-function Order({ list, setList, checkList }) {
+function Order({ list, setList, checkList, user }) {
   const TIME_DELAY = 70;
   const [touchStart, setTouchStart] = useState();
   const [touchMove, setTouchMove] = useState();
@@ -81,19 +108,30 @@ function Order({ list, setList, checkList }) {
     return ingredients;
   }
 
-  const [state, dispatch] = useReducer(reducer, {
-    vegetables: {
-      carrots: 1,
-      onions: 2,
-      potatoes: 5,
-      tomatoes: 10,
-    },
-    meat: {
-      ribs: 5,
-      chickenBreast: 20,
-      liver: 2,
-    },
-  });
+  function convertSetsToKeyValuePairs(objWithSets) {
+    const result = {};
+
+    for (const key in objWithSets) {
+      if (objWithSets.hasOwnProperty(key)) {
+        const set = objWithSets[key];
+        const keyValuePairs = {};
+
+        set.forEach(value => {
+          keyValuePairs[value] = 0;
+        });
+
+        result[key] = keyValuePairs;
+      }
+    }
+
+    return result;
+  }
+  console.log(convertSetsToKeyValuePairs(user.ingredients));
+
+  const [state, dispatch] = useReducer(
+    reducer,
+    convertSetsToKeyValuePairs(user.ingredients)
+  );
   function capitalizeAndAddSpaces(inputText) {
     let result = '';
     result += inputText.charAt(0).toUpperCase();

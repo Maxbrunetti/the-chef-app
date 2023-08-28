@@ -9,7 +9,6 @@ import {
   Select,
   Button,
 } from '@chakra-ui/react';
-import setIngredients from '../../utils/setIngredients';
 
 function AddRecipes({ user, setUser }) {
   const [recipeForm, setRecipeForm] = useState({
@@ -26,15 +25,17 @@ function AddRecipes({ user, setUser }) {
   } = useForm();
 
   function onSubmit(values) {
-    return new Promise(resolve => {
-      setTimeout(() => {
-        setUser({ ...user, recipes: [...user.recipes, recipeForm] });
-        setIngredients(user);
-        // localStorage.setItem('user', JSON.stringify(recipeForm));
-        alert(JSON.stringify(values, null, 2));
-        resolve();
-      }, 1000);
+    setUser({
+      ...user,
+      recipes: [...user.recipes, recipeForm],
     });
+    // return new Promise(resolve => {
+    //   setTimeout(() => {
+    //     localStorage.setItem('user', JSON.stringify(recipeForm));
+    //     alert(JSON.stringify(values, null, 2));
+    //     resolve();
+    //   }, 1000);
+    // });
   }
 
   function addIngredient() {
@@ -96,6 +97,7 @@ function AddRecipes({ user, setUser }) {
           <option value="meat">Meat</option>
           <option value="fish">Fish</option>
           <option value="spices">Spices</option>
+          <option value="misc">Misc</option>
         </Select>
       </FormControl>
     ));
