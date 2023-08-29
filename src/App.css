@@ -16,9 +16,24 @@ section {
 label,
 input,
 p,
-select {
+a,
+select,
+li {
   font-size: 2rem;
 }
+
+h1 {
+  font-size: 4.209rem;
+}
+
+h2 {
+  font-size: 3.157rem;
+}
+
+h3 {
+  font-size: 2.369rem;
+}
+
 :root {
   --red-color: #ffb8b8;
   --blue-color: #b8dbff;
@@ -31,6 +46,7 @@ select {
 
 a {
   text-decoration: none;
+  color: var(--dark-color);
 }
 
 .btn {

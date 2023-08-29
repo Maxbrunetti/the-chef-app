@@ -7,8 +7,10 @@ import AddRecipes from './pages/Recipes/AddRecipes';
 import Order from './pages/Order/Order';
 import { useEffect, useState } from 'react';
 import updateUserIngredients from './utils/updateUserIngredients';
+import RecipeSelected from './pages/Recipes/RecipeSelected';
 
 function App() {
+  const [recipeSelected, setRecipeSelected] = useState('');
   const [user, setUser] = useState({
     recipes: [],
     ingredients: {
@@ -83,7 +85,22 @@ function App() {
                 />
               }
             />
-            <Route path="/recipes" element={<Recipes />} />
+            <Route
+              path="/recipes"
+              element={
+                <Recipes
+                  user={user}
+                  recipeSelected={recipeSelected}
+                  setRecipeSelected={setRecipeSelected}
+                />
+              }
+            />
+            <Route
+              path="/recipeselected"
+              element={
+                <RecipeSelected user={user} recipeSelected={recipeSelected} />
+              }
+            />
             <Route
               path="/addrecipes"
               element={<AddRecipes user={user} setUser={setUser} />}

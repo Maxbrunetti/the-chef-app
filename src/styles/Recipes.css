@@ -61,3 +61,19 @@ option {
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
 }
+
+.ingredientContainer {
+  display: flex;
+  justify-content: center;
+  border-bottom: 1px solid var(--dark-color);
+  padding: 2rem 0;
+}
+
+.recipeSelected {
+  padding-top: 2rem;
+  text-align: center;
+}
+
+.recipeSelected p {
+  padding-top: 1rem;
+}
