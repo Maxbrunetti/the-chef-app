@@ -1,6 +1,6 @@
 import './../../styles/Order.css';
-import React, { useState, useReducer } from 'react';
-import Popup from 'reactjs-popup';
+import React, { useMemo, useState, useReducer, useEffect } from 'react';
+
 import capitalizeAndAddSpaces from '../../utils/capitalizeAndAddSpaces';
 function reducer(state, action) {
   const ingredient = action.ing;
@@ -53,7 +53,13 @@ function reducer(state, action) {
 }
 
 function Order({ list, setList, checkList, user }) {
-  const TIME_DELAY = 70;
+  const initialState = useMemo(() => {
+    const storedState = localStorage.getItem('orderState');
+    return storedState
+      ? JSON.parse(storedState)
+      : convertSetsToKeyValuePairs(user.ingredients);
+  }, [user.ingredients]);
+
   const [touchStart, setTouchStart] = useState();
   const [touchMove, setTouchMove] = useState();
 
@@ -61,7 +67,7 @@ function Order({ list, setList, checkList, user }) {
     const ingredient = key;
     const currentValue = parseFloat(e.target.value);
     const increment = currentValue < 3 ? 0.1 : 0.5;
-
+    const timeDelay = currentValue < 3 ? 40 : 120;
     if (touchStart < touchMove) {
       // Decrease the value
       if (currentValue > 0) {
@@ -69,7 +75,7 @@ function Order({ list, setList, checkList, user }) {
           const newValue = Math.max(0, (currentValue - increment).toFixed(1));
           e.target.value = newValue;
           dispatch({ type: list, ing: ingredient, newValue: newValue });
-        }, TIME_DELAY);
+        }, timeDelay);
       }
     }
     if (touchStart > touchMove) {
@@ -78,7 +84,7 @@ function Order({ list, setList, checkList, user }) {
         const newValue = (currentValue + increment).toFixed(1);
         e.target.value = newValue;
         dispatch({ type: list, ing: ingredient, newValue: newValue });
-      }, TIME_DELAY);
+      }, timeDelay);
     }
   }
 
@@ -94,12 +100,12 @@ function Order({ list, setList, checkList, user }) {
                 className="ingredient-quantity"
                 key={key}
                 value={state[list][key] + 'kg'}
+                readOnly="readonly"
                 onTouchStart={e => setTouchStart(e.touches[0].clientY)}
                 onTouchMove={e => {
                   setTouchMove(e.touches[0].clientY);
                   changeInputValue(e, key);
                 }}
-                onChange={e => ''}
               />
             </div>
           </div>
@@ -128,10 +134,11 @@ function Order({ list, setList, checkList, user }) {
     return result;
   }
 
-  const [state, dispatch] = useReducer(
-    reducer,
-    convertSetsToKeyValuePairs(user.ingredients)
-  );
+  const [state, dispatch] = useReducer(reducer, initialState);
+
+  useEffect(() => {
+    localStorage.setItem('orderState', JSON.stringify(state));
+  }, [state]);
 
   function copyList() {
     let copiedText = [];
