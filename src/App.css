@@ -4,6 +4,7 @@
   box-sizing: border-box;
   font-size: 62.5%;
   overflow-x: hidden;
+  overscroll-behavior-y: contain;
 }
 main {
   padding-top: 6rem;
