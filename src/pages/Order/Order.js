@@ -96,6 +96,7 @@ function Order({ list, setList, checkList, user }) {
                 value={state[list][key] + 'kg'}
                 onTouchStart={e => setTouchStart(e.touches[0].clientY)}
                 onTouchMove={e => {
+                  e.preventDefault();
                   setTouchMove(e.touches[0].clientY);
                   changeInputValue(e, key);
                 }}
