@@ -8,11 +8,13 @@ import Order from './pages/Order/Order';
 import { useEffect, useState } from 'react';
 import updateUserIngredients from './utils/updateUserIngredients';
 import RecipeSelected from './pages/Recipes/RecipeSelected';
+import EditRecipe from './pages/Recipes/EditRecipe';
 
 function App() {
+  const previousSession = localStorage.getItem('user');
   const [recipeSelected, setRecipeSelected] = useState('');
   const [user, setUser] = useState({
-    recipes: [],
+    recipes: JSON.parse(previousSession) || [],
     ingredients: {
       vegetables: new Set(),
       meat: new Set(),
@@ -33,6 +35,8 @@ function App() {
       ...user,
       ingredients: updateUserIngredients(user.recipes),
     });
+
+    localStorage.setItem('user', JSON.stringify(user.recipes));
     // eslint-disable-next-line
   }, [user.recipes]);
 
@@ -99,6 +103,16 @@ function App() {
               path="/recipeselected"
               element={
                 <RecipeSelected user={user} recipeSelected={recipeSelected} />
+              }
+            />
+            <Route
+              path="/editrecipe"
+              element={
+                <EditRecipe
+                  user={user}
+                  setUser={setUser}
+                  recipeSelected={recipeSelected}
+                />
               }
             />
             <Route

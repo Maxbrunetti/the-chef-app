@@ -69,6 +69,12 @@ option {
   padding: 2rem 0;
 }
 
+.ingredientContainer a {
+  width: 100%;
+  height: 100%;
+  text-align: center;
+}
+
 .recipeSelected {
   padding-top: 2rem;
   text-align: center;
@@ -76,4 +82,9 @@ option {
 
 .recipeSelected p {
   padding-top: 1rem;
+}
+
+.recipeSelected .portions {
+  font-weight: 200;
+  font-size: 2rem;
 }

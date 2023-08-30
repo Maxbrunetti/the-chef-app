@@ -1,5 +1,5 @@
 import './../../styles/Recipes.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import {
   FormErrorMessage,
@@ -10,7 +10,7 @@ import {
   Button,
 } from '@chakra-ui/react';
 
-function AddRecipes({ user, setUser }) {
+function EditRecipe({ recipeSelected, user, setUser }) {
   const [recipeForm, setRecipeForm] = useState({
     name: '',
     portions: '',
@@ -18,16 +18,31 @@ function AddRecipes({ user, setUser }) {
     alergens: '',
   });
 
+  useEffect(() => {
+    if (recipeSelected) {
+      const [recipe] = user.recipes.filter(
+        recipe => recipe.name === recipeSelected
+      );
+      setRecipeForm(recipe);
+    }
+  }, [recipeSelected]);
+
   const {
     handleSubmit,
     register,
     formState: { errors, isSubmitting },
-  } = useForm();
+  } = useForm({ shouldUnregister: false });
 
   function onSubmit() {
+    const recipeIndex = user.recipes.findIndex(
+      recipe => recipe.name === recipeSelected
+    );
+    const updatedRecipes = [...user.recipes];
+    updatedRecipes[recipeIndex] = recipeForm;
+
     setUser({
       ...user,
-      recipes: [...user.recipes, recipeForm],
+      recipes: updatedRecipes,
     });
     console.log(user);
   }
@@ -107,9 +122,14 @@ function AddRecipes({ user, setUser }) {
             required: 'Unique recipe name required',
             minLength: { value: 3, message: 'Minimum length should be 3' },
             validate: {
-              uniqueName: value =>
-                !user.recipes.map(recipe => recipe.name).includes(value) ||
-                'Recipe name must be unique',
+              uniqueName: value => {
+                if (value === recipeSelected) return true;
+
+                return (
+                  !user.recipes.map(recipe => recipe.name).includes(value) ||
+                  'Recipe name must be unique'
+                );
+              },
             },
           })}
           value={recipeForm.name}
@@ -163,4 +183,4 @@ function AddRecipes({ user, setUser }) {
   );
 }
 
-export default AddRecipes;
+export default EditRecipe;

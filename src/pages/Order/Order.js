@@ -1,5 +1,6 @@
 import './../../styles/Order.css';
 import React, { useState, useReducer } from 'react';
+import Popup from 'reactjs-popup';
 
 function reducer(state, action) {
   const ingredient = action.ing;
@@ -126,7 +127,6 @@ function Order({ list, setList, checkList, user }) {
 
     return result;
   }
-  console.log(convertSetsToKeyValuePairs(user.ingredients));
 
   const [state, dispatch] = useReducer(
     reducer,
