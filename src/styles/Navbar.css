@@ -42,15 +42,19 @@
 }
 
 .nav-elements {
-  font-size: 6rem;
+  background: var(--dark-color);
 }
 
 .nav-elements.active {
-  padding-top: 6rem;
+  padding-top: 5rem;
+  position: absolute;
+  width: 100%;
 }
 
 .nav-elements li a {
-  border-bottom: 1px solid;
+  font-size: 3rem;
+  color: var(--light-color);
+  border-bottom: 3px solid var(--light-color);
   padding: 3rem 0;
   display: flex;
   justify-content: center;

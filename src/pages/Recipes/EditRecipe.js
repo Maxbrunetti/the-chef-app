@@ -119,7 +119,6 @@ function EditRecipe({ recipeSelected, user, setUser }) {
         <Input
           id="recipeName"
           {...register('recipeName', {
-            required: 'Unique recipe name required',
             minLength: { value: 3, message: 'Minimum length should be 3' },
             validate: {
               uniqueName: value => {
@@ -145,7 +144,6 @@ function EditRecipe({ recipeSelected, user, setUser }) {
           id="portions"
           type="number"
           {...register('portions', {
-            required: 'Add recipe portions',
             min: { value: 1, message: 'Minimum value is 1' },
           })}
           value={recipeForm.portions}

@@ -1,7 +1,7 @@
 import './../../styles/Order.css';
 import React, { useState, useReducer } from 'react';
 import Popup from 'reactjs-popup';
-
+import capitalizeAndAddSpaces from '../../utils/capitalizeAndAddSpaces';
 function reducer(state, action) {
   const ingredient = action.ing;
   if (action.type === 'vegetables') {
@@ -132,24 +132,12 @@ function Order({ list, setList, checkList, user }) {
     reducer,
     convertSetsToKeyValuePairs(user.ingredients)
   );
-  function capitalizeAndAddSpaces(inputText) {
-    let result = '';
-    result += inputText.charAt(0).toUpperCase();
-    for (let i = 1; i < inputText.length; i++) {
-      const currentChar = inputText.charAt(i);
-      if (currentChar === currentChar.toUpperCase() && i > 0) {
-        result += ' ';
-      }
-      result += currentChar;
-    }
-
-    return result;
-  }
 
   function copyList() {
     let copiedText = [];
     for (const key in state[list]) {
-      copiedText.push(`${capitalizeAndAddSpaces(key)}: ${state[list][key]}`);
+      if (state[list][key] == 0) continue;
+      copiedText.push(`${capitalizeAndAddSpaces(key)}: ${state[list][key]}kg`);
     }
     copiedText = copiedText.join('\n');
     return navigator.clipboard.writeText(copiedText);

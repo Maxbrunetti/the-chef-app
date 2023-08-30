@@ -9,6 +9,7 @@ import {
   Select,
   Button,
 } from '@chakra-ui/react';
+import capitalizeAndAddSpaces from '../../utils/capitalizeAndAddSpaces';
 
 function AddRecipes({ user, setUser }) {
   const [recipeForm, setRecipeForm] = useState({
@@ -25,6 +26,7 @@ function AddRecipes({ user, setUser }) {
   } = useForm();
 
   function onSubmit() {
+    recipeForm.name = capitalizeAndAddSpaces(recipeForm.name);
     setUser({
       ...user,
       recipes: [...user.recipes, recipeForm],

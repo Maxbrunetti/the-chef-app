@@ -23,11 +23,6 @@ function App() {
       misc: new Set(),
     },
   });
-  // useEffect(() => {
-  //   if (localStorage.user) {
-  //     setUser();
-  //   }
-  // }, []);
 
   // Update user ingredients on change
   useEffect(() => {
