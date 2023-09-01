@@ -10,6 +10,7 @@ import {
   Button,
 } from '@chakra-ui/react';
 import capitalizeAndAddSpaces from '../../utils/capitalizeAndAddSpaces';
+import updateUserIngredients from '../../utils/updateUserIngredients';
 
 function AddRecipes({ user, setUser }) {
   const [recipeForm, setRecipeForm] = useState({
@@ -31,6 +32,7 @@ function AddRecipes({ user, setUser }) {
       ...user,
       recipes: [...user.recipes, recipeForm],
     });
+    localStorage.removeItem('orderState');
     console.log(user);
   }
 

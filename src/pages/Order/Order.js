@@ -53,12 +53,19 @@ function reducer(state, action) {
 }
 
 function Order({ list, setList, checkList, user }) {
-  const initialState = useMemo(() => {
-    const storedState = localStorage.getItem('orderState');
-    return storedState
-      ? JSON.parse(storedState)
-      : convertSetsToKeyValuePairs(user.ingredients);
-  }, [user.ingredients]);
+  const desktopScreen = 768;
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  window.addEventListener('resize', () => setWindowWidth(window.innerWidth));
+
+  const initialState = localStorage.getItem('orderState')
+    ? JSON.parse(localStorage.getItem('orderState'))
+    : convertSetsToKeyValuePairs(user.ingredients);
+
+  const [state, dispatch] = useReducer(reducer, initialState);
+
+  useEffect(() => {
+    localStorage.setItem('orderState', JSON.stringify(state));
+  }, [state]);
 
   const [touchStart, setTouchStart] = useState();
   const [touchMove, setTouchMove] = useState();
@@ -90,26 +97,58 @@ function Order({ list, setList, checkList, user }) {
 
   function displayIngredients(ingredientsList) {
     const ingredients = [];
-    for (const key in ingredientsList) {
-      if (ingredientsList.hasOwnProperty(key)) {
-        ingredients.push(
-          <div className="order-container" key={key}>
-            <div className="ingredient-container">
-              <p className="ingredient-name">{capitalizeAndAddSpaces(key)}</p>
-              <input
-                className="ingredient-quantity"
-                key={key}
-                value={state[list][key] + 'kg'}
-                readOnly="readonly"
-                onTouchStart={e => setTouchStart(e.touches[0].clientY)}
-                onTouchMove={e => {
-                  setTouchMove(e.touches[0].clientY);
-                  changeInputValue(e, key);
-                }}
-              />
+    if (windowWidth < desktopScreen) {
+      for (const key in ingredientsList) {
+        if (ingredientsList.hasOwnProperty(key)) {
+          ingredients.push(
+            <div className="order-container" key={key}>
+              <div className="ingredient-container">
+                <p className="ingredient-name">{capitalizeAndAddSpaces(key)}</p>
+                <input
+                  className="ingredient-quantity"
+                  key={key}
+                  value={state[list][key] + 'kg'}
+                  onTouchStart={e => setTouchStart(e.touches[0].clientY)}
+                  onTouchMove={e => {
+                    setTouchMove(e.touches[0].clientY);
+                    changeInputValue(e, key);
+                  }}
+                  onChange={e => e}
+                />
+              </div>
             </div>
-          </div>
-        );
+          );
+        }
+      }
+    } else {
+      for (const key in ingredientsList) {
+        if (ingredientsList.hasOwnProperty(key)) {
+          ingredients.push(
+            <div className="order-container" key={key}>
+              <div className="ingredient-container">
+                <p className="ingredient-name">{capitalizeAndAddSpaces(key)}</p>
+                <input
+                  className="ingredient-quantity"
+                  key={key}
+                  min={0}
+                  type="number"
+                  value={state[list][key]}
+                  onChange={e => {
+                    console.log(key);
+                    dispatch({
+                      type: list,
+                      ing: key,
+                      newValue: +e.target.value,
+                    });
+                  }}
+                />
+                <div className="unit">
+                  <p>kg</p>
+                </div>
+              </div>
+            </div>
+          );
+        }
       }
     }
     return ingredients;
@@ -133,12 +172,6 @@ function Order({ list, setList, checkList, user }) {
 
     return result;
   }
-
-  const [state, dispatch] = useReducer(reducer, initialState);
-
-  useEffect(() => {
-    localStorage.setItem('orderState', JSON.stringify(state));
-  }, [state]);
 
   function copyList() {
     let copiedText = [];
