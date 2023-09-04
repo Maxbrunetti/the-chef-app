@@ -2,7 +2,6 @@ import './../../styles/Recipes.css';
 import { Link } from 'react-router-dom';
 
 function Recipes({ user, setRecipeSelected }) {
-  console.log(user.recipes);
   return (
     <section>
       {user.recipes.map(recipe => (

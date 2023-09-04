@@ -50,6 +50,11 @@ a {
   color: var(--dark-color);
 }
 
+input:focus,
+select:focus {
+  outline-color: var(--brown-color);
+}
+
 .btn {
   font-size: 2rem;
   padding: 1rem 2rem;
@@ -67,6 +72,12 @@ a {
 }
 
 .btn:hover {
+  background-color: var(--dark-color);
+  border-color: var(--light-color);
+  color: var(--light-color);
+}
+
+.btn:focus {
   background-color: var(--dark-color);
   border-color: var(--light-color);
   color: var(--light-color);

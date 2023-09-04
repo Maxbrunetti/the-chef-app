@@ -25,6 +25,7 @@ function EditRecipe({ recipeSelected, user, setUser }) {
       );
       setRecipeForm(recipe);
     }
+    // eslint-disable-next-line
   }, [recipeSelected]);
 
   const {
@@ -125,7 +126,9 @@ function EditRecipe({ recipeSelected, user, setUser }) {
                 if (value === recipeSelected) return true;
 
                 return (
-                  !user.recipes.map(recipe => recipe.name).includes(value) ||
+                  !user.recipes
+                    .map(recipe => recipe.name.toLowerCase())
+                    .includes(value.toLowerCase()) ||
                   'Recipe name must be unique'
                 );
               },

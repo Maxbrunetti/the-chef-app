@@ -1,5 +1,5 @@
 import './../../styles/Order.css';
-import React, { useMemo, useState, useReducer, useEffect } from 'react';
+import React, { useState, useReducer, useEffect } from 'react';
 
 import capitalizeAndAddSpaces from '../../utils/capitalizeAndAddSpaces';
 function reducer(state, action) {
@@ -88,7 +88,7 @@ function Order({ list, setList, checkList, user }) {
     if (touchStart > touchMove) {
       // Increase the value
       setTimeout(() => {
-        const newValue = (currentValue + increment).toFixed(1);
+        const newValue = Math.max(0, (currentValue + increment).toFixed(1));
         e.target.value = newValue;
         dispatch({ type: list, ing: ingredient, newValue: newValue });
       }, timeDelay);
@@ -176,7 +176,7 @@ function Order({ list, setList, checkList, user }) {
   function copyList() {
     let copiedText = [];
     for (const key in state[list]) {
-      if (state[list][key] == 0) continue;
+      if (state[list][key] === 0) continue;
       copiedText.push(`${capitalizeAndAddSpaces(key)}: ${state[list][key]}kg`);
     }
     copiedText = copiedText.join('\n');

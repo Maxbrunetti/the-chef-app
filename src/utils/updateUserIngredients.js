@@ -1,4 +1,7 @@
 const updateUserIngredients = function (arr) {
+  if (!arr) {
+    return;
+  }
   const vegetables = new Set();
   const meat = new Set();
   const fish = new Set();

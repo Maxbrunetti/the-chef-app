@@ -1,6 +1,5 @@
 import './../../styles/Recipes.css';
 import { useNavigate } from 'react-router-dom';
-import AddRecipes from './AddRecipes';
 
 function RecipeSelected({ user, recipeSelected }) {
   const navigate = useNavigate();
@@ -22,6 +21,7 @@ function RecipeSelected({ user, recipeSelected }) {
         <p className="portions">Portions: {currentRecipe.portions}</p>
         <p>Ingredients</p>
         <ul>{ingredientsList}</ul>
+
         <div className="btn-container">
           <button className="btn btnOrder" onClick={() => navigate(-1)}>
             Back

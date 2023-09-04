@@ -28,12 +28,10 @@ function App() {
   useEffect(() => {
     setUser({
       ...user,
-      ingredients: updateUserIngredients(
-        JSON.parse(localStorage.getItem('user'))
-      ),
+      ingredients: updateUserIngredients(user.recipes),
     });
     localStorage.setItem('user', JSON.stringify(user.recipes));
-
+    console.log(user);
     // eslint-disable-next-line
   }, [user.recipes]);
 
@@ -83,6 +81,7 @@ function App() {
                   setList={setList}
                   checkList={checkList}
                   user={user}
+                  setUser={setUser}
                 />
               }
             />

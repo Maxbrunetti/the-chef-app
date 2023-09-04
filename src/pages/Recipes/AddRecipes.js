@@ -10,7 +10,6 @@ import {
   Button,
 } from '@chakra-ui/react';
 import capitalizeAndAddSpaces from '../../utils/capitalizeAndAddSpaces';
-import updateUserIngredients from '../../utils/updateUserIngredients';
 
 function AddRecipes({ user, setUser }) {
   const [recipeForm, setRecipeForm] = useState({
@@ -33,7 +32,6 @@ function AddRecipes({ user, setUser }) {
       recipes: [...user.recipes, recipeForm],
     });
     localStorage.removeItem('orderState');
-    console.log(user);
   }
 
   function addIngredient() {
@@ -107,16 +105,18 @@ function AddRecipes({ user, setUser }) {
         <FormLabel htmlFor="recipeName">Recipe Name</FormLabel>
         <Input
           id="recipeName"
+          value={recipeForm.name}
           {...register('recipeName', {
             required: 'Unique recipe name required',
             minLength: { value: 3, message: 'Minimum length should be 3' },
             validate: {
               uniqueName: value =>
-                !user.recipes.map(recipe => recipe.name).includes(value) ||
+                !user.recipes
+                  .map(recipe => recipe.name.toLowerCase())
+                  .includes(value.toLowerCase()) ||
                 'Recipe name must be unique',
             },
           })}
-          value={recipeForm.name}
           onChange={e => setRecipeForm({ ...recipeForm, name: e.target.value })}
         />
         <FormErrorMessage className="errorMessage">
@@ -128,6 +128,7 @@ function AddRecipes({ user, setUser }) {
         <Input
           id="portions"
           type="number"
+          min={1}
           {...register('portions', {
             required: 'Add recipe portions',
             min: { value: 1, message: 'Minimum value is 1' },
