@@ -1,7 +1,7 @@
 p {
   font-size: 3rem;
 }
-.btn-container {
+.btnContainer {
   position: fixed;
   bottom: 0;
 }
@@ -13,24 +13,24 @@ p {
   bottom: 0;
 }
 
-.order-container {
+.orderContainer {
   display: grid;
   grid-template-columns: repeat(1fr);
 }
 
-.ingredient-container {
+.ingredientContainer {
   display: grid;
   grid-template-columns: 6.5fr 3fr 0.5fr;
   width: 100%;
 }
 @media only screen and (max-width: 768px) {
-  .ingredient-container {
+  .ingredientContainer {
     display: grid;
     grid-template-columns: 7fr 3fr;
     width: 100%;
   }
 }
-.ingredient-name {
+.ingredientName {
   border: 0px;
   border-bottom: 1px;
   border-color: #000;
@@ -38,7 +38,7 @@ p {
   padding: 1.5rem;
 }
 
-.ingredient-quantity {
+.ingredientQuantity {
   background: none;
   border: 0px;
   border-left: 1px solid rgb(0, 0, 0, 0.2);

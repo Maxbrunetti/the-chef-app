@@ -67,6 +67,14 @@ select:focus {
   cursor: pointer;
 }
 
+.containerBtnDelete {
+  position: fixed;
+  width: 100%;
+  bottom: 7rem;
+  display: flex;
+  justify-content: center;
+}
+
 .btn:visited {
   color: var(--dark-color);
 }
@@ -81,4 +89,32 @@ select:focus {
   background-color: var(--dark-color);
   border-color: var(--light-color);
   color: var(--light-color);
+}
+
+.btnDelete {
+  background: var(--red-color);
+}
+.btnDelete:focus {
+  background: var(--red-color);
+  color: var(--dark-color);
+  border: 1px solid var(--dark-color);
+}
+
+.confirmDeleteContainer {
+  display: flex;
+  flex-direction: column;
+  padding: 10%;
+  margin: 0 20px;
+  text-align: center;
+  gap: 3rem;
+  background: #ccc;
+  border-radius: 1rem;
+}
+.confirmDeleteContainer div {
+  display: flex;
+  justify-content: center;
+  gap: 3rem;
+}
+.confirmDeleteContainer p {
+  font-size: 2rem;
 }

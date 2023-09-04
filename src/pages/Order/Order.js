@@ -101,11 +101,11 @@ function Order({ list, setList, checkList, user }) {
       for (const key in ingredientsList) {
         if (ingredientsList.hasOwnProperty(key)) {
           ingredients.push(
-            <div className="order-container" key={key}>
-              <div className="ingredient-container">
-                <p className="ingredient-name">{capitalizeAndAddSpaces(key)}</p>
+            <div className="orderContainer" key={key}>
+              <div className="ingredientContainer">
+                <p className="ingredientName">{capitalizeAndAddSpaces(key)}</p>
                 <input
-                  className="ingredient-quantity"
+                  className="ingredientQuantity"
                   key={key}
                   value={state[list][key] + 'kg'}
                   onTouchStart={e => setTouchStart(e.touches[0].clientY)}
@@ -124,11 +124,11 @@ function Order({ list, setList, checkList, user }) {
       for (const key in ingredientsList) {
         if (ingredientsList.hasOwnProperty(key)) {
           ingredients.push(
-            <div className="order-container" key={key}>
-              <div className="ingredient-container">
-                <p className="ingredient-name">{capitalizeAndAddSpaces(key)}</p>
+            <div className="orderContainer" key={key}>
+              <div className="ingredientContainer">
+                <p className="ingredientName">{capitalizeAndAddSpaces(key)}</p>
                 <input
-                  className="ingredient-quantity"
+                  className="ingredientQuantity"
                   key={key}
                   min={0}
                   type="number"
@@ -186,7 +186,7 @@ function Order({ list, setList, checkList, user }) {
   return (
     <section className={`main ${list}`}>
       {displayIngredients(state[list])}
-      <div className="btn-container">
+      <div className="btnContainer">
         <button className="btn btnOrder" onClick={copyList}>
           Copy
         </button>

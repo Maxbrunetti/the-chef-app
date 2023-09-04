@@ -5,7 +5,7 @@ function Recipes({ user, setRecipeSelected }) {
   return (
     <section>
       {user.recipes.map(recipe => (
-        <div className="ingredientContainer" key={recipe.name}>
+        <div className="recipesContainer" key={recipe.name}>
           <Link
             to="/recipeselected"
             onClick={e => {

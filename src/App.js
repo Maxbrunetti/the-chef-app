@@ -98,7 +98,11 @@ function App() {
             <Route
               path="/recipeselected"
               element={
-                <RecipeSelected user={user} recipeSelected={recipeSelected} />
+                <RecipeSelected
+                  user={user}
+                  setUser={setUser}
+                  recipeSelected={recipeSelected}
+                />
               }
             />
             <Route

@@ -154,7 +154,7 @@ function AddRecipes({ user, setUser }) {
       >
         + Ingredient
       </Button>
-      <div className="btn-container">
+      <div className="btnContainer">
         <Button
           mt={4}
           isLoading={isSubmitting}

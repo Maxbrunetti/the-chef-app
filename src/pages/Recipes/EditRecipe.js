@@ -9,8 +9,10 @@ import {
   Select,
   Button,
 } from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom';
 
 function EditRecipe({ recipeSelected, user, setUser }) {
+  const navigate = useNavigate();
   const [recipeForm, setRecipeForm] = useState({
     name: '',
     portions: '',
@@ -45,7 +47,8 @@ function EditRecipe({ recipeSelected, user, setUser }) {
       ...user,
       recipes: updatedRecipes,
     });
-    console.log(user);
+    localStorage.removeItem('orderState');
+    navigate('/recipes');
   }
 
   function addIngredient() {
@@ -170,7 +173,7 @@ function EditRecipe({ recipeSelected, user, setUser }) {
       >
         + Ingredient
       </Button>
-      <div className="btn-container">
+      <div className="btnContainer">
         <Button
           mt={4}
           isLoading={isSubmitting}
