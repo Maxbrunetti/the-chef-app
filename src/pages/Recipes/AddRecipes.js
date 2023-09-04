@@ -7,15 +7,20 @@ import {
   FormControl,
   Input,
   Select,
+  Textarea,
   Button,
 } from '@chakra-ui/react';
 import capitalizeAndAddSpaces from '../../utils/capitalizeAndAddSpaces';
+import { useNavigate } from 'react-router-dom';
 
 function AddRecipes({ user, setUser }) {
+  const navigate = useNavigate();
   const [recipeForm, setRecipeForm] = useState({
     name: '',
+    type: '',
     portions: '',
     ingredients: [{ ingredient: '', weight: '', list: '' }],
+    instructions: '',
     alergens: '',
   });
 
@@ -32,6 +37,7 @@ function AddRecipes({ user, setUser }) {
       recipes: [...user.recipes, recipeForm],
     });
     localStorage.removeItem('orderState');
+    navigate('/recipes');
   }
 
   function addIngredient() {
@@ -123,6 +129,22 @@ function AddRecipes({ user, setUser }) {
           {errors.recipeName && errors.recipeName.message}
         </FormErrorMessage>
       </FormControl>
+      <FormControl isInvalid={errors.recipeType} className="formGroup">
+        <FormLabel htmlFor="recipeType">Recipe Type</FormLabel>
+        <Select
+          placeholder="Type"
+          id="recipeType"
+          value={recipeForm.type}
+          {...register('recipeType', {
+            required: 'Choose recipe type',
+          })}
+          onChange={e => setRecipeForm({ ...recipeForm, type: e.target.value })}
+        >
+          <option value="Starter">Starter</option>
+          <option value="Main">Main</option>
+          <option value="Dessert">Dessert</option>
+        </Select>
+      </FormControl>
       <FormControl isInvalid={errors.portions} className="formGroup">
         <FormLabel htmlFor="portions">Portions</FormLabel>
         <Input
@@ -154,6 +176,10 @@ function AddRecipes({ user, setUser }) {
       >
         + Ingredient
       </Button>
+      <FormControl isInvalid={errors.instructions} className="formGroup">
+        <FormLabel htmlFor="instructions">Instructions</FormLabel>
+        <Textarea></Textarea>
+      </FormControl>
       <div className="btnContainer">
         <Button
           mt={4}

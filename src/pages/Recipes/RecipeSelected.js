@@ -39,6 +39,7 @@ function RecipeSelected({ user, setUser, recipeSelected }) {
     return (
       <section className="recipeSelected">
         <h1>{currentRecipe.name}</h1>
+        <p className="portions">Type: {currentRecipe.type}</p>
         <p className="portions">Portions: {currentRecipe.portions}</p>
         <p>Ingredients</p>
         <ul>{ingredientsList}</ul>
@@ -48,18 +49,24 @@ function RecipeSelected({ user, setUser, recipeSelected }) {
             modal
             nested
           >
-            <div className="confirmDeleteContainer">
-              <p style={{ fontWeight: 600 }}>
-                Are you sure you want to delete this recipe?
-              </p>
-              <p>This will also remove its ingredients from the order list.</p>
-              <div>
-                <button className="btn btnDelete" onClick={deleteRecipe}>
-                  Confirm
-                </button>
-                <button className="btn">Cancel</button>
+            {close => (
+              <div className="confirmDeleteContainer">
+                <p style={{ fontWeight: 600 }}>
+                  Are you sure you want to delete this recipe?
+                </p>
+                <p>
+                  This will also remove its ingredients from the order list.
+                </p>
+                <div>
+                  <button className="btn btnDelete" onClick={deleteRecipe}>
+                    Confirm
+                  </button>
+                  <button className="btn" onClick={close}>
+                    Cancel
+                  </button>
+                </div>
               </div>
-            </div>
+            )}
           </Popup>
         </div>
         <div className="btnContainer">

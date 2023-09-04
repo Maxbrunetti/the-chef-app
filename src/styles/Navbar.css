@@ -49,6 +49,7 @@
   padding-top: 5rem;
   position: absolute;
   width: 100%;
+  z-index: 1;
 }
 
 .nav-elements li a {
