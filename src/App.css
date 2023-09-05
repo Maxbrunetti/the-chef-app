@@ -19,6 +19,7 @@ input,
 p,
 a,
 select,
+ul,
 li {
   font-size: 2rem;
 }

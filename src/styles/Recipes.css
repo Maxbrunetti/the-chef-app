@@ -90,11 +90,13 @@ option {
   text-align: center;
 }
 
-.recipeSelected p {
-  padding-top: 1rem;
-}
-
-.recipeSelected .portions {
+.recipeSelected .details {
   font-weight: 200;
   font-size: 2rem;
+}
+
+.recipeSelected .instructions {
+  text-align: left;
+  padding: 2rem 2rem;
+  white-space: pre-line;
 }

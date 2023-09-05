@@ -144,6 +144,9 @@ function AddRecipes({ user, setUser }) {
           <option value="Main">Main</option>
           <option value="Dessert">Dessert</option>
         </Select>
+        <FormErrorMessage className="errorMessage">
+          {errors.recipeType && errors.recipeType.message}
+        </FormErrorMessage>
       </FormControl>
       <FormControl isInvalid={errors.portions} className="formGroup">
         <FormLabel htmlFor="portions">Portions</FormLabel>
@@ -176,9 +179,19 @@ function AddRecipes({ user, setUser }) {
       >
         + Ingredient
       </Button>
-      <FormControl isInvalid={errors.instructions} className="formGroup">
+      <FormControl className="formGroup">
         <FormLabel htmlFor="instructions">Instructions</FormLabel>
-        <Textarea></Textarea>
+        <Textarea
+          id="instructions"
+          value={recipeForm.instructions}
+          onChange={e => {
+            setRecipeForm({
+              ...recipeForm,
+              instructions: e.target.value,
+            });
+            console.log(recipeForm.instructions);
+          }}
+        />
       </FormControl>
       <div className="btnContainer">
         <Button

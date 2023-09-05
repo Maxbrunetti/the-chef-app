@@ -39,10 +39,14 @@ function RecipeSelected({ user, setUser, recipeSelected }) {
     return (
       <section className="recipeSelected">
         <h1>{currentRecipe.name}</h1>
-        <p className="portions">Type: {currentRecipe.type}</p>
-        <p className="portions">Portions: {currentRecipe.portions}</p>
-        <p>Ingredients</p>
-        <ul>{ingredientsList}</ul>
+        <p className="details">Type: {currentRecipe.type}</p>
+        <p className="details">Portions: {currentRecipe.portions}</p>
+        <div className="instructions">
+          <h2>Ingredients</h2>
+          <ul>{ingredientsList}</ul>
+          <h2>Instructions</h2>
+          <p>{currentRecipe.instructions}</p>
+        </div>
         <div className="containerBtnDelete">
           <Popup
             trigger={<button className="btn btnDelete">Delete Recipe</button>}

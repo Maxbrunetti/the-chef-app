@@ -7,6 +7,7 @@ import {
   FormControl,
   Input,
   Select,
+  Textarea,
   Button,
 } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
@@ -144,6 +145,23 @@ function EditRecipe({ recipeSelected, user, setUser }) {
           {errors.recipeName && errors.recipeName.message}
         </FormErrorMessage>
       </FormControl>
+      <FormControl isInvalid={errors.recipeType} className="formGroup">
+        <FormLabel htmlFor="recipeType">Recipe Type</FormLabel>
+        <Select
+          placeholder="Type"
+          id="recipeType"
+          {...register('recipeType', {})}
+          onChange={e => setRecipeForm({ ...recipeForm, type: e.target.value })}
+          value={recipeForm.type}
+        >
+          <option value="Starter">Starter</option>
+          <option value="Main">Main</option>
+          <option value="Dessert">Dessert</option>
+        </Select>
+        <FormErrorMessage className="errorMessage">
+          {errors.recipeType && errors.recipeType.message}
+        </FormErrorMessage>
+      </FormControl>
       <FormControl isInvalid={errors.portions} className="formGroup">
         <FormLabel htmlFor="portions">Portions</FormLabel>
         <Input
@@ -163,6 +181,19 @@ function EditRecipe({ recipeSelected, user, setUser }) {
       </FormControl>
       <p>Ingredients</p>
       {newIngredientInput()}
+      <FormControl className="formGroup">
+        <FormLabel htmlFor="instructions">Instructions</FormLabel>
+        <Textarea
+          id="instructions"
+          value={recipeForm.instructions}
+          onChange={e =>
+            setRecipeForm({
+              ...recipeForm,
+              instructions: e.target.value,
+            })
+          }
+        />
+      </FormControl>
       <Button
         onClick={() => {
           addIngredient();
