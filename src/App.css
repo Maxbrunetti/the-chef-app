@@ -5,6 +5,7 @@
   font-size: 62.5%;
   overflow-x: hidden;
   overscroll-behavior-y: contain;
+  line-height: 1.3;
 }
 main {
   padding-top: 6rem;
@@ -12,6 +13,7 @@ main {
 }
 section {
   height: 100%;
+  margin-bottom: 10rem;
 }
 
 label,
@@ -30,6 +32,7 @@ h1 {
 
 h2 {
   font-size: 3.157rem;
+  margin-top: 2rem;
 }
 
 h3 {

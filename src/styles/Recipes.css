@@ -4,6 +4,7 @@
   align-items: center;
   align-content: center;
   text-align: center;
+  margin-bottom: 6rem;
 }
 
 .addRecipeForm input,
@@ -35,20 +36,20 @@
   display: grid;
   grid-template-areas: 'ingredient weight type';
   grid-template-columns: 4fr 3fr 3fr;
-  padding: 1px 0px;
-  margin: 10px 0px;
+  padding: 0.1rem 0;
+  margin: 1rem 0;
 }
 
 .ingredientInput input {
   width: auto;
-  margin: 1px 0;
+  margin: 0.1rem 0;
   border-radius: 1rem;
 }
 .ingredientInput select {
   height: 4rem;
   display: flex;
   width: 100%;
-  margin: 1px 0;
+  margin: 0.1rem 0;
   border-radius: 1rem;
 }
 .addRecipeForm p {
@@ -70,12 +71,20 @@ option {
   border-bottom-left-radius: 0;
 }
 
+.recipeList {
+  width: 80vw;
+  margin: auto;
+  text-align: center;
+}
+
 .recipesContainer {
   display: flex;
   justify-content: center;
 
-  border-bottom: 1px solid var(--dark-color);
-  padding: 2rem 0;
+  border: 1px solid var(--dark-color);
+  border-radius: 1rem;
+  margin: 1rem 0;
+  padding: 1.5rem 0;
 }
 
 .recipesContainer a {
@@ -99,4 +108,16 @@ option {
   text-align: left;
   padding: 2rem 2rem;
   white-space: pre-line;
+}
+
+.formCheckbox span {
+  font-size: 2rem;
+}
+
+.chakra-checkbox__input,
+.chakra-checkbox__control {
+  border: 1px solid var(--dark-color);
+  height: 2rem !important;
+  width: 2rem !important;
+  margin-left: 2rem !important;
 }

@@ -2,57 +2,36 @@ import './../../styles/Recipes.css';
 import { Link } from 'react-router-dom';
 
 function Recipes({ user, setRecipeSelected }) {
+  function displayRecipes(type) {
+    return (
+      <>
+        {user.recipes
+          .filter(recipe => recipe.type === type)
+          .sort((a, b) => (a.name < b.name ? -1 : 1))
+          .map(recipe => (
+            <div className="recipesContainer" key={recipe.name}>
+              <Link
+                to="/recipeselected"
+                onClick={e => {
+                  setRecipeSelected(e.target.text);
+                }}
+              >
+                {recipe.name}
+              </Link>
+            </div>
+          ))}
+      </>
+    );
+  }
   return (
-    <section>
+    <section className="recipeList">
       <h1>Recipes</h1>
       <h2>Starters</h2>
-      {user.recipes
-        .filter(recipe => recipe.type === 'Starter')
-        .map(recipe => (
-          <div className="recipesContainer" key={recipe.name}>
-            <Link
-              to="/recipeselected"
-              onClick={e => {
-                console.log(e.target.text);
-                setRecipeSelected(e.target.text);
-              }}
-            >
-              {recipe.name}
-            </Link>
-          </div>
-        ))}
+      {displayRecipes('Starter')}
       <h2>Mains</h2>
-      {user.recipes
-        .filter(recipe => recipe.type === 'Main')
-        .map(recipe => (
-          <div className="recipesContainer" key={recipe.name}>
-            <Link
-              to="/recipeselected"
-              onClick={e => {
-                console.log(e.target.text);
-                setRecipeSelected(e.target.text);
-              }}
-            >
-              {recipe.name}
-            </Link>
-          </div>
-        ))}
+      {displayRecipes('Main')}
       <h2>Desserts</h2>
-      {user.recipes
-        .filter(recipe => recipe.type === 'Dessert')
-        .map(recipe => (
-          <div className="recipesContainer" key={recipe.name}>
-            <Link
-              to="/recipeselected"
-              onClick={e => {
-                console.log(e.target.text);
-                setRecipeSelected(e.target.text);
-              }}
-            >
-              {recipe.name}
-            </Link>
-          </div>
-        ))}
+      {displayRecipes('Dessert')}
     </section>
   );
 }

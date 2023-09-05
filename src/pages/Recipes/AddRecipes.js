@@ -8,7 +8,10 @@ import {
   Input,
   Select,
   Textarea,
+  Checkbox,
   Button,
+  CheckboxGroup,
+  Stack,
 } from '@chakra-ui/react';
 import capitalizeAndAddSpaces from '../../utils/capitalizeAndAddSpaces';
 import { useNavigate } from 'react-router-dom';
@@ -21,8 +24,17 @@ function AddRecipes({ user, setUser }) {
     portions: '',
     ingredients: [{ ingredient: '', weight: '', list: '' }],
     instructions: '',
-    alergens: '',
+    allergens: [],
   });
+
+  const allergensTypes = [
+    'Diary',
+    'Fish',
+    'Gluten',
+    'Nuts',
+    'Shellfish',
+    'Soy',
+  ];
 
   const {
     handleSubmit,
@@ -184,14 +196,38 @@ function AddRecipes({ user, setUser }) {
         <Textarea
           id="instructions"
           value={recipeForm.instructions}
-          onChange={e => {
+          onChange={e =>
             setRecipeForm({
               ...recipeForm,
               instructions: e.target.value,
-            });
-            console.log(recipeForm.instructions);
-          }}
+            })
+          }
         />
+      </FormControl>
+      <FormControl className="formGroup">
+        <FormLabel htmlFor="allergens">Allergens</FormLabel>
+        <CheckboxGroup
+          value={recipeForm.allergens}
+          onChange={newAllergens => {
+            setRecipeForm({ ...recipeForm, allergens: newAllergens });
+            console.log(recipeForm);
+          }}
+        >
+          <Stack direction={['column']}>
+            {allergensTypes.map(type => {
+              return (
+                <Checkbox
+                  className="formCheckbox"
+                  iconSize="2rem"
+                  value={type}
+                  key={type}
+                >
+                  {type}
+                </Checkbox>
+              );
+            })}
+          </Stack>
+        </CheckboxGroup>
       </FormControl>
       <div className="btnContainer">
         <Button

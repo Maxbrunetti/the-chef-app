@@ -9,10 +9,21 @@ import {
   Select,
   Textarea,
   Button,
+  CheckboxGroup,
+  Checkbox,
+  Stack,
 } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 
 function EditRecipe({ recipeSelected, user, setUser }) {
+  const allergensTypes = [
+    'Diary',
+    'Fish',
+    'Gluten',
+    'Nuts',
+    'Shellfish',
+    'Soy',
+  ];
   const navigate = useNavigate();
   const [recipeForm, setRecipeForm] = useState({
     name: '',
@@ -193,6 +204,31 @@ function EditRecipe({ recipeSelected, user, setUser }) {
             })
           }
         />
+      </FormControl>
+      <FormControl className="formGroup">
+        <FormLabel htmlFor="allergens">Allergens</FormLabel>
+        <CheckboxGroup
+          value={recipeForm.allergens}
+          onChange={newAllergens => {
+            setRecipeForm({ ...recipeForm, allergens: newAllergens });
+            console.log(recipeForm);
+          }}
+        >
+          <Stack direction={['column']}>
+            {allergensTypes.map(type => {
+              return (
+                <Checkbox
+                  className="formCheckbox"
+                  iconSize="2rem"
+                  value={type}
+                  key={type}
+                >
+                  {type}
+                </Checkbox>
+              );
+            })}
+          </Stack>
+        </CheckboxGroup>
       </FormControl>
       <Button
         onClick={() => {

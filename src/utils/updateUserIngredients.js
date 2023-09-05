@@ -27,12 +27,17 @@ const updateUserIngredients = function (arr) {
       }
     });
   });
+  function sortIngredients(set) {
+    const sortedSet = [...set];
+    sortedSet.sort((a, b) => (a < b ? -1 : 1));
+    return new Set(sortedSet);
+  }
   const newList = {
-    vegetables: vegetables,
-    meat: meat,
-    fish: fish,
-    spices: spices,
-    misc: misc,
+    vegetables: sortIngredients(vegetables),
+    meat: sortIngredients(meat),
+    fish: sortIngredients(fish),
+    spices: sortIngredients(spices),
+    misc: sortIngredients(misc),
   };
   return newList;
 };

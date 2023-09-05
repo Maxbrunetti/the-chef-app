@@ -46,6 +46,12 @@ function RecipeSelected({ user, setUser, recipeSelected }) {
           <ul>{ingredientsList}</ul>
           <h2>Instructions</h2>
           <p>{currentRecipe.instructions}</p>
+          <h2>Allergens</h2>
+          <ul>
+            {currentRecipe.allergens.map(el => (
+              <li>{el}</li>
+            ))}
+          </ul>
         </div>
         <div className="containerBtnDelete">
           <Popup
