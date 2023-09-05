@@ -1,9 +1,13 @@
 import './../../styles/Order.css';
 import React, { useState, useReducer, useEffect } from 'react';
-
+import Popup from 'reactjs-popup';
 import capitalizeAndAddSpaces from '../../utils/capitalizeAndAddSpaces';
+
+import { useNavigate } from 'react-router-dom';
+
 function reducer(state, action) {
   const ingredient = action.ing;
+
   if (action.type === 'vegetables') {
     return {
       ...state,
@@ -53,6 +57,14 @@ function reducer(state, action) {
 }
 
 function Order({ list, setList, checkList, user }) {
+  const navigate = useNavigate();
+  function clearOrder() {
+    localStorage.setItem(
+      'orderState',
+      JSON.stringify(convertSetsToKeyValuePairs(user.ingredients))
+    );
+    navigate(0);
+  }
   const desktopScreen = 768;
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   window.addEventListener('resize', () => setWindowWidth(window.innerWidth));
@@ -151,12 +163,13 @@ function Order({ list, setList, checkList, user }) {
         }
       }
     }
+    ingredients.sort((a, b) => (a.key > b.key ? 1 : -1));
+    console.log(ingredients);
     return ingredients;
   }
 
   function convertSetsToKeyValuePairs(objWithSets) {
     const result = {};
-
     for (const key in objWithSets) {
       if (objWithSets.hasOwnProperty(key)) {
         const set = objWithSets[key];
@@ -169,7 +182,6 @@ function Order({ list, setList, checkList, user }) {
         result[key] = keyValuePairs;
       }
     }
-
     return result;
   }
 
@@ -186,6 +198,29 @@ function Order({ list, setList, checkList, user }) {
   return (
     <section className={`main ${list}`}>
       {displayIngredients(state[list])}
+      <div className="containerBtnDelete">
+        <Popup
+          trigger={<button className="btn btnDelete">Clear Order</button>}
+          modal
+          nested
+        >
+          {close => (
+            <div className="confirmDeleteContainer">
+              <p style={{ fontWeight: 600 }}>
+                Are you sure you want to clear all orders?
+              </p>
+              <div>
+                <button className="btn btnDelete" onClick={clearOrder}>
+                  Confirm
+                </button>
+                <button className="btn" onClick={close}>
+                  Cancel
+                </button>
+              </div>
+            </div>
+          )}
+        </Popup>
+      </div>
       <div className="btnContainer">
         <button className="btn btnOrder" onClick={copyList}>
           Copy

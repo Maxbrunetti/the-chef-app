@@ -25,7 +25,6 @@ function Recipes({ user, setRecipeSelected }) {
   }
   return (
     <section className="recipeList">
-      <h1>Recipes</h1>
       <h2>Starters</h2>
       {displayRecipes('Starter')}
       <h2>Mains</h2>

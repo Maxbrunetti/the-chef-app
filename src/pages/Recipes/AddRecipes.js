@@ -11,7 +11,6 @@ import {
   Checkbox,
   Button,
   CheckboxGroup,
-  Stack,
 } from '@chakra-ui/react';
 import capitalizeAndAddSpaces from '../../utils/capitalizeAndAddSpaces';
 import { useNavigate } from 'react-router-dom';
@@ -34,6 +33,8 @@ function AddRecipes({ user, setUser }) {
     'Nuts',
     'Shellfish',
     'Soy',
+    'Vegetarian',
+    'Vegan',
   ];
 
   const {
@@ -120,7 +121,9 @@ function AddRecipes({ user, setUser }) {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="addRecipeForm">
       <FormControl isInvalid={errors.recipeName} className="formGroup">
-        <FormLabel htmlFor="recipeName">Recipe Name</FormLabel>
+        <FormLabel htmlFor="recipeName" className="label">
+          Recipe Name
+        </FormLabel>
         <Input
           id="recipeName"
           value={recipeForm.name}
@@ -142,7 +145,9 @@ function AddRecipes({ user, setUser }) {
         </FormErrorMessage>
       </FormControl>
       <FormControl isInvalid={errors.recipeType} className="formGroup">
-        <FormLabel htmlFor="recipeType">Recipe Type</FormLabel>
+        <FormLabel htmlFor="recipeType" className="label">
+          Recipe Type
+        </FormLabel>
         <Select
           placeholder="Type"
           id="recipeType"
@@ -161,7 +166,9 @@ function AddRecipes({ user, setUser }) {
         </FormErrorMessage>
       </FormControl>
       <FormControl isInvalid={errors.portions} className="formGroup">
-        <FormLabel htmlFor="portions">Portions</FormLabel>
+        <FormLabel htmlFor="portions" className="label">
+          Portions
+        </FormLabel>
         <Input
           id="portions"
           type="number"
@@ -179,20 +186,26 @@ function AddRecipes({ user, setUser }) {
           {errors.portions && errors.portions.message}
         </FormErrorMessage>
       </FormControl>
-      <p>Ingredients</p>
-      {newIngredientInput()}
-      <Button
-        onClick={() => {
-          addIngredient();
-          console.log(recipeForm);
-        }}
-        className="btn"
-        style={{ margin: 0 }}
-      >
-        + Ingredient
-      </Button>
       <FormControl className="formGroup">
-        <FormLabel htmlFor="instructions">Instructions</FormLabel>
+        <FormLabel htmlFor="ingredients" className="label">
+          Ingredient
+        </FormLabel>
+        {newIngredientInput()}
+        <Button
+          onClick={() => {
+            addIngredient();
+            console.log(recipeForm);
+          }}
+          className="btn"
+          style={{ margin: 0 }}
+        >
+          + Ingredient
+        </Button>
+      </FormControl>
+      <FormControl className="formGroup">
+        <FormLabel htmlFor="instructions" className="label">
+          Instructions
+        </FormLabel>
         <Textarea
           id="instructions"
           value={recipeForm.instructions}
@@ -205,7 +218,9 @@ function AddRecipes({ user, setUser }) {
         />
       </FormControl>
       <FormControl className="formGroup">
-        <FormLabel htmlFor="allergens">Allergens</FormLabel>
+        <FormLabel htmlFor="allergens" className="label">
+          Allergens & Diet
+        </FormLabel>
         <CheckboxGroup
           value={recipeForm.allergens}
           onChange={newAllergens => {
@@ -213,7 +228,7 @@ function AddRecipes({ user, setUser }) {
             console.log(recipeForm);
           }}
         >
-          <Stack direction={['column']}>
+          <div className="checkboxContainer">
             {allergensTypes.map(type => {
               return (
                 <Checkbox
@@ -226,7 +241,7 @@ function AddRecipes({ user, setUser }) {
                 </Checkbox>
               );
             })}
-          </Stack>
+          </div>
         </CheckboxGroup>
       </FormControl>
       <div className="btnContainer">

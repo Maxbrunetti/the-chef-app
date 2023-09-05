@@ -29,9 +29,12 @@
 }
 
 .formGroup {
-  margin: 2rem 0;
+  margin: 2.5rem 0;
 }
-
+.formGroup .label {
+  font-size: 2.5rem;
+  font-weight: 600;
+}
 .ingredientInput {
   display: grid;
   grid-template-areas: 'ingredient weight type';
@@ -120,4 +123,10 @@ option {
   height: 2rem !important;
   width: 2rem !important;
   margin-left: 2rem !important;
+}
+
+.checkboxContainer {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
 }

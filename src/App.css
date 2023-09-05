@@ -13,7 +13,7 @@ main {
 }
 section {
   height: 100%;
-  margin-bottom: 10rem;
+  padding-bottom: 15rem;
 }
 
 label,
@@ -33,6 +33,7 @@ h1 {
 h2 {
   font-size: 3.157rem;
   margin-top: 2rem;
+  margin-bottom: 0.5rem;
 }
 
 h3 {
