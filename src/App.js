@@ -31,7 +31,6 @@ function App() {
       ingredients: updateUserIngredients(user.recipes),
     });
     localStorage.setItem('user', JSON.stringify(user.recipes));
-    console.log(user);
     // eslint-disable-next-line
   }, [user.recipes]);
 
@@ -63,12 +62,6 @@ function App() {
     <>
       <header className={'header'}></header>
       <BrowserRouter>
-        {/* <head>
-          <meta name="og:title" content="The Chef App" />
-          <meta name="og:description" content="" />
-          <meta name="og:image" content="" />
-        </head>
-        <body> */}
         <Navbar list={list} />
         <main>
           <Routes>
@@ -122,7 +115,6 @@ function App() {
           </Routes>
         </main>
         <footer></footer>
-        {/* </body> */}
       </BrowserRouter>
     </>
   );

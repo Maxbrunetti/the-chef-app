@@ -14,8 +14,11 @@ import {
 } from '@chakra-ui/react';
 import capitalizeAndAddSpaces from '../../utils/capitalizeAndAddSpaces';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
+import { recipesActions } from '../../store/recipes-slice';
 function AddRecipes({ user, setUser }) {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [recipeForm, setRecipeForm] = useState({
     name: '',
@@ -49,8 +52,10 @@ function AddRecipes({ user, setUser }) {
       ...user,
       recipes: [...user.recipes, recipeForm],
     });
+
+    dispatch(recipesActions.addRecipe(recipeForm));
     localStorage.removeItem('orderState');
-    navigate('/recipes');
+    // navigate('/recipes');
   }
 
   function addIngredient() {

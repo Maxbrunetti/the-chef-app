@@ -1,18 +1,19 @@
 import './../../styles/Recipes.css';
 import { useNavigate } from 'react-router-dom';
 import Popup from 'reactjs-popup';
+import { useDispatch } from 'react-redux';
+import { recipesActions } from '../../store/recipes-slice';
 
 function RecipeSelected({ user, setUser, recipeSelected }) {
+  const dispatch = useDispatch();
+
   function deleteRecipe() {
+    dispatch(recipesActions.deleteRecipe(recipeSelected));
     const newRecipeArray = [...user.recipes];
     const recipeIndex = user.recipes.findIndex(
       recipe => recipe.name === recipeSelected
     );
-
     newRecipeArray.splice(recipeIndex, 1);
-    console.log([...user.recipes]);
-    console.log(newRecipeArray);
-
     const updatedRecipes = [...newRecipeArray];
 
     setUser({

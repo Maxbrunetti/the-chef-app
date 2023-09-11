@@ -164,7 +164,6 @@ function Order({ list, setList, checkList, user }) {
       }
     }
     ingredients.sort((a, b) => (a.key > b.key ? 1 : -1));
-    console.log(ingredients);
     return ingredients;
   }
 
