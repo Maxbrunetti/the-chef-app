@@ -9,10 +9,15 @@ import { useEffect, useState } from 'react';
 import updateUserIngredients from './utils/updateUserIngredients';
 import RecipeSelected from './pages/Recipes/RecipeSelected';
 import EditRecipe from './pages/Recipes/EditRecipe';
+import { useDispatch } from 'react-redux';
+import { recipesActions } from './store/recipes-slice';
+import { useSelector } from 'react-redux';
 
 function App() {
+  const dispatch = useDispatch();
   const previousSession = localStorage.getItem('user');
   const [recipeSelected, setRecipeSelected] = useState('');
+  const recipes = useSelector(state => state.recipes.recipes);
   const [user, setUser] = useState({
     recipes: JSON.parse(previousSession) || [],
     ingredients: {
@@ -33,6 +38,10 @@ function App() {
     localStorage.setItem('user', JSON.stringify(user.recipes));
     // eslint-disable-next-line
   }, [user.recipes]);
+
+  useEffect(() => {
+    dispatch(recipesActions.setIngredientsList(recipes));
+  }, [recipes, dispatch]);
 
   const [list, setList] = useState('vegetables');
 

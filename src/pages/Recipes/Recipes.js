@@ -1,7 +1,10 @@
 import './../../styles/Recipes.css';
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { recipesActions } from '../../store/recipes-slice';
 
 function Recipes({ user, setRecipeSelected }) {
+  const dispatch = useDispatch();
   function displayRecipes(type) {
     return (
       <>
@@ -13,6 +16,7 @@ function Recipes({ user, setRecipeSelected }) {
               <Link
                 to="/recipeselected"
                 onClick={e => {
+                  dispatch(recipesActions.selectRecipe(e.target.text));
                   setRecipeSelected(e.target.text);
                 }}
               >

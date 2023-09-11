@@ -14,8 +14,12 @@ import {
   Stack,
 } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { recipesActions } from '../../store/recipes-slice';
 
 function EditRecipe({ recipeSelected, user, setUser }) {
+  const dispatch = useDispatch();
+
   const allergensTypes = [
     'Diary',
     'Fish',
@@ -49,6 +53,12 @@ function EditRecipe({ recipeSelected, user, setUser }) {
   } = useForm({ shouldUnregister: false });
 
   function onSubmit() {
+    dispatch(
+      recipesActions.editRecipe({
+        recipeName: recipeSelected,
+        recipe: recipeForm,
+      })
+    );
     const recipeIndex = user.recipes.findIndex(
       recipe => recipe.name === recipeSelected
     );

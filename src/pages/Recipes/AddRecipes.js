@@ -55,7 +55,7 @@ function AddRecipes({ user, setUser }) {
 
     dispatch(recipesActions.addRecipe(recipeForm));
     localStorage.removeItem('orderState');
-    // navigate('/recipes');
+    navigate('/recipes');
   }
 
   function addIngredient() {
@@ -230,7 +230,6 @@ function AddRecipes({ user, setUser }) {
           value={recipeForm.allergens}
           onChange={newAllergens => {
             setRecipeForm({ ...recipeForm, allergens: newAllergens });
-            console.log(recipeForm);
           }}
         >
           <div className="checkboxContainer">

@@ -2,8 +2,9 @@ import './../../styles/Order.css';
 import React, { useState, useReducer, useEffect } from 'react';
 import Popup from 'reactjs-popup';
 import capitalizeAndAddSpaces from '../../utils/capitalizeAndAddSpaces';
-
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { recipesActions } from '../../store/recipes-slice';
 
 function reducer(state, action) {
   const ingredient = action.ing;
@@ -57,6 +58,7 @@ function reducer(state, action) {
 }
 
 function Order({ list, setList, checkList, user }) {
+  const dispatchTwo = useDispatch();
   const navigate = useNavigate();
   function clearOrder() {
     localStorage.setItem(
@@ -226,7 +228,10 @@ function Order({ list, setList, checkList, user }) {
         </button>
         <button
           className="btn btnOrder"
-          onClick={() => setList(checkList(list))}
+          onClick={() => {
+            setList(checkList(list));
+            dispatchTwo(recipesActions.changeList());
+          }}
         >
           Next List
         </button>
