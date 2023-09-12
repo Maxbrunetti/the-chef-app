@@ -16,8 +16,11 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { recipesActions } from '../../store/recipes-slice';
+import { useSelector } from 'react-redux/es/hooks/useSelector';
 
-function EditRecipe({ recipeSelected, user, setUser }) {
+function EditRecipe() {
+  const recipeSelected = useSelector(state => state.recipes.recipeSelected);
+  const recipes = useSelector(state => state.recipes.recipes);
   const dispatch = useDispatch();
 
   const allergensTypes = [
@@ -27,6 +30,8 @@ function EditRecipe({ recipeSelected, user, setUser }) {
     'Nuts',
     'Shellfish',
     'Soy',
+    'Vegetarian',
+    'Vegan',
   ];
   const navigate = useNavigate();
   const [recipeForm, setRecipeForm] = useState({
@@ -38,9 +43,7 @@ function EditRecipe({ recipeSelected, user, setUser }) {
 
   useEffect(() => {
     if (recipeSelected) {
-      const [recipe] = user.recipes.filter(
-        recipe => recipe.name === recipeSelected
-      );
+      const [recipe] = recipes.filter(recipe => recipe.name === recipeSelected);
       setRecipeForm(recipe);
     }
     // eslint-disable-next-line
@@ -59,17 +62,6 @@ function EditRecipe({ recipeSelected, user, setUser }) {
         recipe: recipeForm,
       })
     );
-    const recipeIndex = user.recipes.findIndex(
-      recipe => recipe.name === recipeSelected
-    );
-    const updatedRecipes = [...user.recipes];
-    updatedRecipes[recipeIndex] = recipeForm;
-
-    setUser({
-      ...user,
-      recipes: updatedRecipes,
-    });
-    localStorage.removeItem('orderState');
     navigate('/recipes');
   }
 
@@ -151,7 +143,7 @@ function EditRecipe({ recipeSelected, user, setUser }) {
                 if (value === recipeSelected) return true;
 
                 return (
-                  !user.recipes
+                  !recipes
                     .map(recipe => recipe.name.toLowerCase())
                     .includes(value.toLowerCase()) ||
                   'Recipe name must be unique'
@@ -216,15 +208,16 @@ function EditRecipe({ recipeSelected, user, setUser }) {
         />
       </FormControl>
       <FormControl className="formGroup">
-        <FormLabel htmlFor="allergens">Allergens</FormLabel>
+        <FormLabel htmlFor="allergens" className="label">
+          Allergens & Diet
+        </FormLabel>
         <CheckboxGroup
           value={recipeForm.allergens}
           onChange={newAllergens => {
             setRecipeForm({ ...recipeForm, allergens: newAllergens });
-            console.log(recipeForm);
           }}
         >
-          <Stack direction={['column']}>
+          <div className="checkboxContainer">
             {allergensTypes.map(type => {
               return (
                 <Checkbox
@@ -237,7 +230,7 @@ function EditRecipe({ recipeSelected, user, setUser }) {
                 </Checkbox>
               );
             })}
-          </Stack>
+          </div>
         </CheckboxGroup>
       </FormControl>
       <Button

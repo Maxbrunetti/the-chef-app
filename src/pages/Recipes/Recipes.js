@@ -2,13 +2,15 @@ import './../../styles/Recipes.css';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { recipesActions } from '../../store/recipes-slice';
+import { useSelector } from 'react-redux/es/hooks/useSelector';
 
-function Recipes({ user, setRecipeSelected }) {
+function Recipes() {
   const dispatch = useDispatch();
+  const recipes = useSelector(state => state.recipes.recipes);
   function displayRecipes(type) {
     return (
       <>
-        {user.recipes
+        {recipes
           .filter(recipe => recipe.type === type)
           .sort((a, b) => (a.name < b.name ? -1 : 1))
           .map(recipe => (
@@ -16,8 +18,8 @@ function Recipes({ user, setRecipeSelected }) {
               <Link
                 to="/recipeselected"
                 onClick={e => {
+                  console.log(e.target.text);
                   dispatch(recipesActions.selectRecipe(e.target.text));
-                  setRecipeSelected(e.target.text);
                 }}
               >
                 {recipe.name}

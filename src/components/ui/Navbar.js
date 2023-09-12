@@ -2,8 +2,12 @@ import { Link } from 'react-router-dom';
 import './../../styles/Navbar.css';
 import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
-function Navbar({ list }) {
+function Navbar() {
+  const list = useSelector(
+    state => state.recipes.lists[state.recipes.currentList]
+  );
   const location = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);
   function setTitle() {

@@ -3,31 +3,22 @@ import { useNavigate } from 'react-router-dom';
 import Popup from 'reactjs-popup';
 import { useDispatch } from 'react-redux';
 import { recipesActions } from '../../store/recipes-slice';
+import { useSelector } from 'react-redux/es/hooks/useSelector';
+function RecipeSelected() {
+  const recipes = useSelector(state => state.recipes.recipes);
+  const recipeSelected = useSelector(state => state.recipes.recipeSelected);
 
-function RecipeSelected({ user, setUser, recipeSelected }) {
   const dispatch = useDispatch();
 
   function deleteRecipe() {
     dispatch(recipesActions.deleteRecipe(recipeSelected));
-    const newRecipeArray = [...user.recipes];
-    const recipeIndex = user.recipes.findIndex(
-      recipe => recipe.name === recipeSelected
-    );
-    newRecipeArray.splice(recipeIndex, 1);
-    const updatedRecipes = [...newRecipeArray];
-
-    setUser({
-      ...user,
-      recipes: updatedRecipes,
-    });
-    localStorage.removeItem('orderState');
     navigate('/recipes');
   }
 
   const navigate = useNavigate();
 
   if (recipeSelected) {
-    const [currentRecipe] = user.recipes.filter(
+    const [currentRecipe] = recipes.filter(
       recipe => recipe.name === recipeSelected
     );
     const ingredientsList = currentRecipe.ingredients.map(ing => (
@@ -44,14 +35,14 @@ function RecipeSelected({ user, setUser, recipeSelected }) {
         <p className="details">Portions: {currentRecipe.portions}</p>
         <div className="instructions">
           <h2>Ingredients</h2>
-          <ul>{ingredientsList}</ul>
+          <ul>{ingredientsList || ''}</ul>
           <h2>Instructions</h2>
-          <p>{currentRecipe.instructions}</p>
+          <p>{currentRecipe.instructions || ''}</p>
           <h2>Allergens</h2>
           <ul>
-            {currentRecipe.allergens.map(el => (
-              <li>{el}</li>
-            ))}
+            {currentRecipe.allergens
+              ? currentRecipe.allergens.map(el => <li>{el}</li>)
+              : ''}
           </ul>
         </div>
         <div className="containerBtnDelete">

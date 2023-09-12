@@ -10,122 +10,51 @@ import updateUserIngredients from './utils/updateUserIngredients';
 import RecipeSelected from './pages/Recipes/RecipeSelected';
 import EditRecipe from './pages/Recipes/EditRecipe';
 import { useDispatch } from 'react-redux';
-import { recipesActions } from './store/recipes-slice';
 import { useSelector } from 'react-redux';
-import { sendUserData } from './store/recipes-actions';
+import { fetchUserData, sendUserData } from './store/recipes-actions';
+let isInitial = true;
 
 function App() {
   const dispatch = useDispatch();
-  const previousSession = localStorage.getItem('user');
   const [recipeSelected, setRecipeSelected] = useState('');
   const recipes = useSelector(state => state.recipes.recipes);
+  const order = useSelector(state => state.recipes.order);
   const ingredients = useSelector(state => state.recipes.ingredients);
-  const currentState = useSelector(state => state);
-  const [user, setUser] = useState({
-    recipes: JSON.parse(previousSession) || [],
-    ingredients: {
-      vegetables: new Set(),
-      meat: new Set(),
-      fish: new Set(),
-      spices: new Set(),
-      misc: new Set(),
-    },
-  });
-
-  // Update user ingredients on change
-  useEffect(() => {
-    setUser({
-      ...user,
-      ingredients: updateUserIngredients(user.recipes),
-    });
-    localStorage.setItem('user', JSON.stringify(user.recipes));
-    // eslint-disable-next-line
-  }, [ingredients]);
 
   useEffect(() => {
-    // dispatch(recipesActions.setIngredientsList(recipes));
-    sendUserData(currentState.recipes);
-    // console.log(currentState);
+    dispatch(fetchUserData());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (isInitial) {
+      isInitial = false;
+      return;
+    }
+    sendUserData(recipes);
   }, [recipes, dispatch]);
 
-  const [list, setList] = useState('vegetables');
-
-  function checkList(list) {
-    switch (list) {
-      case 'vegetables':
-        return 'meat';
-
-      case 'meat':
-        return 'fish';
-
-      case 'fish':
-        return 'spices';
-
-      case 'spices':
-        return 'misc';
-
-      case 'misc':
-        return 'vegetables';
-
-      default:
-        return list;
-    }
-  }
+  useEffect(() => {
+    const sendDataDelay = setTimeout(() => {
+      sendUserData(recipes);
+    }, 1000);
+    return () => {
+      clearTimeout(sendDataDelay);
+    };
+  }, []);
 
   return (
     <>
       <header className={'header'}></header>
       <BrowserRouter>
-        <Navbar list={list} />
+        <Navbar />
         <main>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route
-              path="/order"
-              element={
-                <Order
-                  list={list}
-                  setList={setList}
-                  checkList={checkList}
-                  user={user}
-                  setUser={setUser}
-                />
-              }
-            />
-            <Route
-              path="/recipes"
-              element={
-                <Recipes
-                  user={user}
-                  recipeSelected={recipeSelected}
-                  setRecipeSelected={setRecipeSelected}
-                />
-              }
-            />
-            <Route
-              path="/recipeselected"
-              element={
-                <RecipeSelected
-                  user={user}
-                  setUser={setUser}
-                  recipeSelected={recipeSelected}
-                />
-              }
-            />
-            <Route
-              path="/editrecipe"
-              element={
-                <EditRecipe
-                  user={user}
-                  setUser={setUser}
-                  recipeSelected={recipeSelected}
-                />
-              }
-            />
-            <Route
-              path="/addrecipes"
-              element={<AddRecipes user={user} setUser={setUser} />}
-            />
+            <Route path="/order" element={<Order />} />
+            <Route path="/recipes" element={<Recipes />} />
+            <Route path="/recipeselected" element={<RecipeSelected />} />
+            <Route path="/editrecipe" element={<EditRecipe />} />
+            <Route path="/addrecipes" element={<AddRecipes />} />
           </Routes>
         </main>
         <footer></footer>

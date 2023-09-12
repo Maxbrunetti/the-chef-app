@@ -3,83 +3,23 @@ import React, { useState, useReducer, useEffect } from 'react';
 import Popup from 'reactjs-popup';
 import capitalizeAndAddSpaces from '../../utils/capitalizeAndAddSpaces';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { recipesActions } from '../../store/recipes-slice';
+import { convertArrayIntoKeyValue } from '../../utils/convertArraysIntoKeyValue';
 
-function reducer(state, action) {
-  const ingredient = action.ing;
+function Order() {
+  const currentList = useSelector(state => state.recipes.currentList);
+  const list = useSelector(state => state.recipes.lists[currentList]);
+  const order = useSelector(state => state.recipes.order);
 
-  if (action.type === 'vegetables') {
-    return {
-      ...state,
-      vegetables: {
-        ...state.vegetables,
-        [ingredient]: action.newValue,
-      },
-    };
-  }
-  if (action.type === 'meat') {
-    return {
-      ...state,
-      meat: {
-        ...state.meat,
-        [ingredient]: action.newValue,
-      },
-    };
-  }
-  if (action.type === 'fish') {
-    return {
-      ...state,
-      fish: {
-        ...state.fish,
-        [ingredient]: action.newValue,
-      },
-    };
-  }
-  if (action.type === 'spices') {
-    return {
-      ...state,
-      spices: {
-        ...state.spices,
-        [ingredient]: action.newValue,
-      },
-    };
-  }
-  if (action.type === 'misc') {
-    return {
-      ...state,
-      misc: {
-        ...state.misc,
-        [ingredient]: action.newValue,
-      },
-    };
-  }
-  return state;
-}
+  const dispatch = useDispatch();
 
-function Order({ list, setList, checkList, user }) {
-  const dispatchTwo = useDispatch();
-  const navigate = useNavigate();
   function clearOrder() {
-    localStorage.setItem(
-      'orderState',
-      JSON.stringify(convertSetsToKeyValuePairs(user.ingredients))
-    );
-    navigate(0);
+    dispatch(recipesActions.clearOrder());
   }
   const desktopScreen = 768;
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   window.addEventListener('resize', () => setWindowWidth(window.innerWidth));
-
-  const initialState = localStorage.getItem('orderState')
-    ? JSON.parse(localStorage.getItem('orderState'))
-    : convertSetsToKeyValuePairs(user.ingredients);
-
-  const [state, dispatch] = useReducer(reducer, initialState);
-
-  useEffect(() => {
-    localStorage.setItem('orderState', JSON.stringify(state));
-  }, [state]);
 
   const [touchStart, setTouchStart] = useState();
   const [touchMove, setTouchMove] = useState();
@@ -95,7 +35,8 @@ function Order({ list, setList, checkList, user }) {
         setTimeout(() => {
           const newValue = Math.max(0, (currentValue - increment).toFixed(1));
           e.target.value = newValue;
-          dispatch({ type: list, ing: ingredient, newValue: newValue });
+          // dispatch({ type: list, ing: ingredient, newValue: newValue });
+          dispatch(recipesActions.updateOrder({ ingredient, newValue, list }));
         }, timeDelay);
       }
     }
@@ -104,7 +45,8 @@ function Order({ list, setList, checkList, user }) {
       setTimeout(() => {
         const newValue = Math.max(0, (currentValue + increment).toFixed(1));
         e.target.value = newValue;
-        dispatch({ type: list, ing: ingredient, newValue: newValue });
+        // dispatch({ type: list, ing: ingredient, newValue: newValue });
+        dispatch(recipesActions.updateOrder({ ingredient, newValue, list }));
       }, timeDelay);
     }
   }
@@ -121,7 +63,7 @@ function Order({ list, setList, checkList, user }) {
                 <input
                   className="ingredientQuantity"
                   key={key}
-                  value={state[list][key] + 'kg'}
+                  value={order[list][key] + 'kg'}
                   onTouchStart={e => setTouchStart(e.touches[0].clientY)}
                   onTouchMove={e => {
                     setTouchMove(e.touches[0].clientY);
@@ -146,7 +88,7 @@ function Order({ list, setList, checkList, user }) {
                   key={key}
                   min={0}
                   type="number"
-                  value={state[list][key]}
+                  value={order[list][key]}
                   onChange={e => {
                     console.log(key);
                     dispatch({
@@ -169,28 +111,11 @@ function Order({ list, setList, checkList, user }) {
     return ingredients;
   }
 
-  function convertSetsToKeyValuePairs(objWithSets) {
-    const result = {};
-    for (const key in objWithSets) {
-      if (objWithSets.hasOwnProperty(key)) {
-        const set = objWithSets[key];
-        const keyValuePairs = {};
-
-        set.forEach(value => {
-          keyValuePairs[value] = 0;
-        });
-
-        result[key] = keyValuePairs;
-      }
-    }
-    return result;
-  }
-
   function copyList() {
     let copiedText = [];
-    for (const key in state[list]) {
-      if (state[list][key] === 0) continue;
-      copiedText.push(`${capitalizeAndAddSpaces(key)}: ${state[list][key]}kg`);
+    for (const key in order[list]) {
+      if (order[list][key] === 0) continue;
+      copiedText.push(`${capitalizeAndAddSpaces(key)}: ${order[list][key]}kg`);
     }
     copiedText = copiedText.join('\n');
     return navigator.clipboard.writeText(copiedText);
@@ -198,7 +123,7 @@ function Order({ list, setList, checkList, user }) {
 
   return (
     <section className={`main ${list}`}>
-      {displayIngredients(state[list])}
+      {displayIngredients(order[list])}
       <div className="containerBtnDelete">
         <Popup
           trigger={<button className="btn btnDelete">Clear Order</button>}
@@ -229,8 +154,7 @@ function Order({ list, setList, checkList, user }) {
         <button
           className="btn btnOrder"
           onClick={() => {
-            setList(checkList(list));
-            dispatchTwo(recipesActions.changeList());
+            dispatch(recipesActions.changeList());
           }}
         >
           Next List

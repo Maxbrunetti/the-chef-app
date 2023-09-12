@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import updateUserIngredients from '../utils/updateUserIngredients';
-
+import { convertArrayIntoKeyValue } from '../utils/convertArraysIntoKeyValue';
 const recipesInitialState = {
   recipes: [],
   ingredients: {
@@ -13,6 +13,7 @@ const recipesInitialState = {
   lists: ['vegetables', 'meat', 'fish', 'spices', 'misc'],
   currentList: 0,
   recipeSelected: '',
+  order: {},
 };
 
 const recipesSlice = createSlice({
@@ -23,6 +24,7 @@ const recipesSlice = createSlice({
       const newRecipe = action.payload;
       state.recipes.push(newRecipe);
       state.ingredients = updateUserIngredients(state.recipes);
+      state.order = convertArrayIntoKeyValue(state.ingredients);
       // action.payload.ingredients.forEach(ingredient => {
       //   state.ingredients[ingredient.list].add(ingredient.name);
       // });
@@ -33,6 +35,8 @@ const recipesSlice = createSlice({
       );
       const updatedRecipe = action.payload.recipe;
       state.recipes[recipeIndex] = updatedRecipe;
+      state.ingredients = updateUserIngredients(state.recipes);
+      state.order = convertArrayIntoKeyValue(state.ingredients);
     },
     deleteRecipe(state, action) {
       const recipeIndex = state.recipes.findIndex(
@@ -52,6 +56,22 @@ const recipesSlice = createSlice({
     setIngredientsList(state) {
       if (!state.recipes) return;
       state.ingredients = updateUserIngredients(state.recipes);
+    },
+    updateOrder(state, action) {
+      const ingredient = action.payload.ingredient;
+      const list = action.payload.list;
+      state.order[list][ingredient] = action.payload.newValue;
+    },
+    updateUser(state, action) {
+      state.recipes = action.payload.recipes;
+      state.lists = action.payload.lists;
+      state.currentList = action.payload.currentList;
+      state.recipeSelected = action.payload.recipeSelected;
+      state.ingredients = action.payload.ingredients;
+      state.order = action.payload.order;
+    },
+    clearOrder(state) {
+      state.order = convertArrayIntoKeyValue(state.ingredients);
     },
   },
 });

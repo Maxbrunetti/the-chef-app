@@ -14,10 +14,11 @@ import {
 } from '@chakra-ui/react';
 import capitalizeAndAddSpaces from '../../utils/capitalizeAndAddSpaces';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { recipesActions } from '../../store/recipes-slice';
-function AddRecipes({ user, setUser }) {
+function AddRecipes() {
+  const recipes = useSelector(state => state.recipes.recipes);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [recipeForm, setRecipeForm] = useState({
@@ -48,13 +49,7 @@ function AddRecipes({ user, setUser }) {
 
   function onSubmit() {
     recipeForm.name = capitalizeAndAddSpaces(recipeForm.name);
-    setUser({
-      ...user,
-      recipes: [...user.recipes, recipeForm],
-    });
-
     dispatch(recipesActions.addRecipe(recipeForm));
-    localStorage.removeItem('orderState');
     // navigate('/recipes');
   }
 
@@ -137,7 +132,7 @@ function AddRecipes({ user, setUser }) {
             minLength: { value: 3, message: 'Minimum length should be 3' },
             validate: {
               uniqueName: value =>
-                !user.recipes
+                !recipes
                   .map(recipe => recipe.name.toLowerCase())
                   .includes(value.toLowerCase()) ||
                 'Recipe name must be unique',
