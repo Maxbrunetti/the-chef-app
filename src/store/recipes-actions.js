@@ -1,5 +1,4 @@
 import { recipesActions } from './recipes-slice';
-
 const apiKey = process.env.REACT_APP_FIREBASE_DATABASE;
 
 export async function sendUserData(userData) {
@@ -15,6 +14,7 @@ export async function sendUserData(userData) {
     console.log(error);
   }
 }
+
 export function fetchUserData() {
   return async dispatch => {
     const fetchData = async function () {

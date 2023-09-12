@@ -25,9 +25,6 @@ const recipesSlice = createSlice({
       state.recipes.push(newRecipe);
       state.ingredients = updateUserIngredients(state.recipes);
       state.order = convertArrayIntoKeyValue(state.ingredients);
-      // action.payload.ingredients.forEach(ingredient => {
-      //   state.ingredients[ingredient.list].add(ingredient.name);
-      // });
     },
     editRecipe(state, action) {
       const recipeIndex = state.recipes.findIndex(
@@ -43,6 +40,8 @@ const recipesSlice = createSlice({
         recipe => recipe.name === action.payload
       );
       state.recipes.splice(recipeIndex, 1);
+      state.ingredients = updateUserIngredients(state.recipes);
+      state.order = convertArrayIntoKeyValue(state.ingredients);
     },
     selectRecipe(state, action) {
       state.recipeSelected = action.payload;

@@ -11,7 +11,6 @@ import {
   Button,
   CheckboxGroup,
   Checkbox,
-  Stack,
 } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
@@ -42,12 +41,9 @@ function EditRecipe() {
   });
 
   useEffect(() => {
-    if (recipeSelected) {
-      const [recipe] = recipes.filter(recipe => recipe.name === recipeSelected);
-      setRecipeForm(recipe);
-    }
-    // eslint-disable-next-line
-  }, [recipeSelected]);
+    const [recipe] = recipes.filter(recipe => recipe.name === recipeSelected);
+    setRecipeForm(recipe);
+  }, [recipeSelected, recipes]);
 
   const {
     handleSubmit,

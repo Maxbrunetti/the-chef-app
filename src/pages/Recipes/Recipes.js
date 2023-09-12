@@ -18,7 +18,6 @@ function Recipes() {
               <Link
                 to="/recipeselected"
                 onClick={e => {
-                  console.log(e.target.text);
                   dispatch(recipesActions.selectRecipe(e.target.text));
                 }}
               >

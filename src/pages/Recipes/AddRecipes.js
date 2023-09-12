@@ -12,7 +12,6 @@ import {
   Button,
   CheckboxGroup,
 } from '@chakra-ui/react';
-import capitalizeAndAddSpaces from '../../utils/capitalizeAndAddSpaces';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -48,9 +47,8 @@ function AddRecipes() {
   } = useForm();
 
   function onSubmit() {
-    recipeForm.name = capitalizeAndAddSpaces(recipeForm.name);
     dispatch(recipesActions.addRecipe(recipeForm));
-    // navigate('/recipes');
+    navigate('/recipes');
   }
 
   function addIngredient() {

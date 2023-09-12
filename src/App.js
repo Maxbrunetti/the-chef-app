@@ -1,46 +1,49 @@
 import './App.css';
-import Home from './pages/Home';
-import Navbar from './components/ui/Navbar';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Recipes from './pages/Recipes/Recipes';
-import AddRecipes from './pages/Recipes/AddRecipes';
-import Order from './pages/Order/Order';
-import { useEffect, useState } from 'react';
-import updateUserIngredients from './utils/updateUserIngredients';
-import RecipeSelected from './pages/Recipes/RecipeSelected';
-import EditRecipe from './pages/Recipes/EditRecipe';
+import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { fetchUserData, sendUserData } from './store/recipes-actions';
+
+import Home from './pages/Home';
+import Navbar from './components/ui/Navbar';
+import Recipes from './pages/Recipes/Recipes';
+import AddRecipes from './pages/Recipes/AddRecipes';
+import Order from './pages/Order/Order';
+import RecipeSelected from './pages/Recipes/RecipeSelected';
+import EditRecipe from './pages/Recipes/EditRecipe';
+
 let isInitial = true;
 
 function App() {
   const dispatch = useDispatch();
-  const [recipeSelected, setRecipeSelected] = useState('');
   const recipes = useSelector(state => state.recipes.recipes);
+  const state = useSelector(state => state.recipes);
   const order = useSelector(state => state.recipes.order);
-  const ingredients = useSelector(state => state.recipes.ingredients);
 
+  // Fetch user data
   useEffect(() => {
     dispatch(fetchUserData());
   }, [dispatch]);
 
+  // Send user data
   useEffect(() => {
     if (isInitial) {
       isInitial = false;
       return;
     }
-    sendUserData(recipes);
+    sendUserData(state);
   }, [recipes, dispatch]);
 
+  // Update order
   useEffect(() => {
     const sendDataDelay = setTimeout(() => {
-      sendUserData(recipes);
-    }, 1000);
+      sendUserData(state);
+    }, 500);
     return () => {
       clearTimeout(sendDataDelay);
     };
-  }, []);
+  }, [order]);
 
   return (
     <>

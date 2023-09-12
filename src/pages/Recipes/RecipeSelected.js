@@ -26,7 +26,6 @@ function RecipeSelected() {
         {ing.weight}kg: {ing.ingredient}
       </li>
     ));
-    console.log(currentRecipe);
 
     return (
       <section className="recipeSelected">
