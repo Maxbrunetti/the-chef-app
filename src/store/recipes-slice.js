@@ -4,16 +4,15 @@ import updateUserIngredients from '../utils/updateUserIngredients';
 const recipesInitialState = {
   recipes: [],
   ingredients: {
-    vegetables: new Set(),
-    meat: new Set(),
-    fish: new Set(),
-    spices: new Set(),
-    misc: new Set(),
+    vegetables: [],
+    meat: [],
+    fish: [],
+    spices: [],
+    misc: [],
   },
   lists: ['vegetables', 'meat', 'fish', 'spices', 'misc'],
   currentList: 0,
   recipeSelected: '',
-  changed: false,
 };
 
 const recipesSlice = createSlice({
@@ -23,7 +22,10 @@ const recipesSlice = createSlice({
     addRecipe(state, action) {
       const newRecipe = action.payload;
       state.recipes.push(newRecipe);
-      state.changed = true;
+      state.ingredients = updateUserIngredients(state.recipes);
+      // action.payload.ingredients.forEach(ingredient => {
+      //   state.ingredients[ingredient.list].add(ingredient.name);
+      // });
     },
     editRecipe(state, action) {
       const recipeIndex = state.recipes.findIndex(
@@ -31,14 +33,12 @@ const recipesSlice = createSlice({
       );
       const updatedRecipe = action.payload.recipe;
       state.recipes[recipeIndex] = updatedRecipe;
-      state.changed = true;
     },
     deleteRecipe(state, action) {
       const recipeIndex = state.recipes.findIndex(
         recipe => recipe.name === action.payload
       );
       state.recipes.splice(recipeIndex, 1);
-      state.changed = true;
     },
     selectRecipe(state, action) {
       state.recipeSelected = action.payload;
@@ -49,10 +49,9 @@ const recipesSlice = createSlice({
         state.currentList = 0;
       } else state.currentList++;
     },
-    setIngredientsList(state, action) {
-      // if (state.recipes === []) return;
-      state.ingredients = updateUserIngredients(action.payload);
-      state.changed = false;
+    setIngredientsList(state) {
+      if (!state.recipes) return;
+      state.ingredients = updateUserIngredients(state.recipes);
     },
   },
 });

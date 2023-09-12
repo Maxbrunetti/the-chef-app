@@ -55,7 +55,7 @@ function AddRecipes({ user, setUser }) {
 
     dispatch(recipesActions.addRecipe(recipeForm));
     localStorage.removeItem('orderState');
-    navigate('/recipes');
+    // navigate('/recipes');
   }
 
   function addIngredient() {

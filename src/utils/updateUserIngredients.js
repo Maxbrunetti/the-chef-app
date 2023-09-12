@@ -27,10 +27,10 @@ const updateUserIngredients = function (arr) {
       }
     });
   });
-  function sortIngredients(set) {
-    const sortedSet = [...set];
-    sortedSet.sort((a, b) => (a < b ? -1 : 1));
-    return new Set(sortedSet);
+  function sortIngredients(array) {
+    const sortedArray = [...array];
+    sortedArray.sort((a, b) => (a < b ? -1 : 1));
+    return sortedArray;
   }
   const newList = {
     vegetables: sortIngredients(vegetables),
