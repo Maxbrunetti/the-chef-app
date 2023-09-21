@@ -16,14 +16,21 @@ function Order() {
     dispatch(recipesActions.clearOrder());
   }
 
-  function copyList() {
+  async function copyList() {
     let copiedText = [];
     for (const key in order[list]) {
       if (order[list][key] === 0) continue;
       copiedText.push(`${capitalizeAndAddSpaces(key)}: ${order[list][key]}kg`);
     }
     copiedText = copiedText.join('\n');
-    return navigator.clipboard.writeText(copiedText);
+    navigator.clipboard
+      .writeText(copiedText)
+      .then(() => {
+        alert('successfully copied');
+      })
+      .catch(() => {
+        alert('something went wrong');
+      });
   }
 
   return (
@@ -41,7 +48,13 @@ function Order() {
                 Are you sure you want to clear all orders?
               </p>
               <div>
-                <button className="btn btnDelete" onClick={clearOrder}>
+                <button
+                  className="btn btnDelete"
+                  onClick={e => {
+                    clearOrder();
+                    close();
+                  }}
+                >
                   Confirm
                 </button>
                 <button className="btn" onClick={close}>

@@ -40,7 +40,7 @@ function RecipeSelected() {
           <h2>Allergens</h2>
           <ul>
             {currentRecipe.allergens
-              ? currentRecipe.allergens.map(el => <li>{el}</li>)
+              ? currentRecipe.allergens.map(el => <li key={el}>{el}</li>)
               : ''}
           </ul>
         </div>

@@ -52,6 +52,7 @@ function Ingredients() {
                 <input
                   className="ingredientQuantity"
                   key={key}
+                  id={key}
                   value={order[list][key] + 'kg'}
                   onTouchStart={e => setTouchStart(e.touches[0].clientY)}
                   onTouchMove={e => {
@@ -76,6 +77,7 @@ function Ingredients() {
                 <input
                   className="ingredientQuantity"
                   key={key}
+                  id={key}
                   min={0}
                   type="number"
                   value={order[list][key]}
@@ -103,7 +105,7 @@ function Ingredients() {
     return ingredients;
   }
 
-  return <>{displayIngredients(order[list])}</>;
+  return displayIngredients(order[list]);
 }
 
 export default Ingredients;
