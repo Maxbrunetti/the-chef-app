@@ -42,6 +42,7 @@ function Ingredients() {
   function displayIngredients(ingredientsList) {
     const ingredients = [];
     if (windowWidth < desktopScreen) {
+      // Mobile
       for (const key in ingredientsList) {
         if (ingredientsList.hasOwnProperty(key)) {
           ingredients.push(
@@ -65,6 +66,7 @@ function Ingredients() {
         }
       }
     } else {
+      // Desktop
       for (const key in ingredientsList) {
         if (ingredientsList.hasOwnProperty(key)) {
           ingredients.push(
@@ -78,12 +80,13 @@ function Ingredients() {
                   type="number"
                   value={order[list][key]}
                   onChange={e => {
-                    console.log(key);
-                    dispatch({
-                      type: list,
-                      ing: key,
-                      newValue: +e.target.value,
-                    });
+                    dispatch(
+                      recipesActions.updateOrder({
+                        list: list,
+                        ingredient: key,
+                        newValue: +e.target.value,
+                      })
+                    );
                   }}
                 />
                 <div className="unit">
