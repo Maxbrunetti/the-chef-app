@@ -80,6 +80,7 @@ function Ingredients() {
                   type="number"
                   value={order[list][key]}
                   onChange={e => {
+                    console.log(+e.target.value);
                     dispatch(
                       recipesActions.updateOrder({
                         list: list,
