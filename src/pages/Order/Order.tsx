@@ -16,21 +16,14 @@ function Order() {
     dispatch(recipesActions.clearOrder());
   }
 
-  async function copyList() {
+  function copyList() {
     let copiedText = [];
     for (const key in order[list]) {
       if (order[list][key] === 0) continue;
       copiedText.push(`${capitalizeAndAddSpaces(key)}: ${order[list][key]}kg`);
     }
     copiedText = copiedText.join('\n');
-    navigator.clipboard
-      .writeText(copiedText)
-      .then(() => {
-        alert('successfully copied');
-      })
-      .catch(() => {
-        alert('something went wrong');
-      });
+    return navigator.clipboard.writeText(copiedText);
   }
 
   return (

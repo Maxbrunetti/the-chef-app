@@ -21,7 +21,7 @@ const recipesSlice = createSlice({
   initialState: recipesInitialState,
   reducers: {
     addRecipe(state, action) {
-      const newRecipe = action.payload;
+      const newRecipe: {} = action.payload;
       state.recipes.push(newRecipe);
       state.ingredients = updateUserIngredients(state.recipes);
       state.order = convertArrayIntoKeyValue(state.ingredients);

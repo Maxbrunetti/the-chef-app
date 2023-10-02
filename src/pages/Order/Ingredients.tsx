@@ -11,12 +11,12 @@ function Ingredients() {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   window.addEventListener('resize', () => setWindowWidth(window.innerWidth));
 
-  const [touchStart, setTouchStart] = useState();
-  const [touchMove, setTouchMove] = useState();
+  const [touchStart, setTouchStart] = useState(0);
+  const [touchMove, setTouchMove] = useState(0);
 
   function changeInputValue(e, key) {
     const ingredient = key;
-    const currentValue = parseFloat(e.target.value);
+    const currentValue: number = parseFloat(e.target.value);
     const increment = currentValue < 3 ? 0.1 : 0.5;
     const timeDelay = currentValue < 3 ? 40 : 120;
     if (touchStart < touchMove) {
