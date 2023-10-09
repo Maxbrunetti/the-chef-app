@@ -16,7 +16,7 @@ export async function sendUserData(userData: []) {
 }
 
 export function fetchUserData() {
-  return async dispatch => {
+  return async (dispatch: any) => {
     const fetchData = async function () {
       const response = await fetch(apiKey + 'user.json');
       if (!response.ok) {

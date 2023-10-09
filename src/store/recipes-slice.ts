@@ -1,6 +1,43 @@
 import { createSlice } from '@reduxjs/toolkit';
 import updateUserIngredients from '../utils/updateUserIngredients';
 import { convertArrayIntoKeyValue } from '../utils/convertArraysIntoKeyValue';
+
+export interface Ingredient {
+  list: string;
+  ingredient: string;
+  weight: number;
+}
+
+export interface Recipe {
+  name: string;
+  type: string;
+  portions: number;
+  ingredients: Ingredient[];
+  instructions: string;
+  allergens: string[];
+}
+
+interface IngredientsState {
+  vegetables: string[];
+  meat: string[];
+  fish: string[];
+  spices: string[];
+  misc: string[];
+}
+
+interface RecipesSliceState {
+  recipes: Recipe[];
+  ingredients: IngredientsState;
+  lists: string[];
+  currentList: number;
+  recipeSelected: string;
+  order: Record<string, Record<string, number>>;
+}
+
+export type RootState = {
+  recipes: RecipesSliceState;
+};
+
 const recipesInitialState = {
   recipes: [],
   ingredients: {
@@ -20,24 +57,24 @@ const recipesSlice = createSlice({
   name: 'recipes',
   initialState: recipesInitialState,
   reducers: {
-    addRecipe(state, action) {
-      const newRecipe: {} = action.payload;
+    addRecipe(state: any, action: any) {
+      const newRecipe: Recipe = action.payload;
       state.recipes.push(newRecipe);
       state.ingredients = updateUserIngredients(state.recipes);
       state.order = convertArrayIntoKeyValue(state.ingredients);
     },
-    editRecipe(state, action) {
+    editRecipe(state: any, action: any) {
       const recipeIndex = state.recipes.findIndex(
-        recipe => recipe.name === action.payload.recipeName
+        (recipe: Recipe) => recipe.name === action.payload.recipeName
       );
       const updatedRecipe = action.payload.recipe;
       state.recipes[recipeIndex] = updatedRecipe;
       state.ingredients = updateUserIngredients(state.recipes);
       state.order = convertArrayIntoKeyValue(state.ingredients);
     },
-    deleteRecipe(state, action) {
+    deleteRecipe(state: any, action: any) {
       const recipeIndex = state.recipes.findIndex(
-        recipe => recipe.name === action.payload
+        (recipe: Recipe) => recipe.name === action.payload
       );
       state.recipes.splice(recipeIndex, 1);
       state.ingredients = updateUserIngredients(state.recipes);
@@ -52,11 +89,11 @@ const recipesSlice = createSlice({
         state.currentList = 0;
       } else state.currentList++;
     },
-    setIngredientsList(state) {
+    setIngredientsList(state: any) {
       if (!state.recipes) return;
       state.ingredients = updateUserIngredients(state.recipes);
     },
-    updateOrder(state, action) {
+    updateOrder(state: any, action: any) {
       const ingredient = action.payload.ingredient;
       const list = action.payload.list;
       state.order[list][ingredient] = action.payload.newValue;
@@ -69,7 +106,7 @@ const recipesSlice = createSlice({
       state.ingredients = action.payload.ingredients;
       state.order = action.payload.order;
     },
-    clearOrder(state) {
+    clearOrder(state: any) {
       state.order = convertArrayIntoKeyValue(state.ingredients);
     },
   },

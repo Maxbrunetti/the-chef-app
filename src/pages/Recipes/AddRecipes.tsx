@@ -14,17 +14,18 @@ import {
 } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-
+import { Ingredient, Recipe, RootState } from '../../store/recipes-slice';
 import { recipesActions } from '../../store/recipes-slice';
+
 function AddRecipes() {
-  const recipes = useSelector(state => state.recipes.recipes);
+  const recipes = useSelector((state: RootState) => state.recipes.recipes);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [recipeForm, setRecipeForm] = useState({
+  const [recipeForm, setRecipeForm] = useState<Recipe>({
     name: '',
     type: '',
-    portions: '',
-    ingredients: [{ ingredient: '', weight: '', list: '' }],
+    portions: 1,
+    ingredients: [{ ingredient: '', weight: 0, list: '' }],
     instructions: '',
     allergens: [],
   });
@@ -47,7 +48,7 @@ function AddRecipes() {
   } = useForm();
 
   function onSubmit() {
-    dispatch(recipesActions.addRecipe(recipeForm));
+    dispatch(recipesActions.addRecipe<any>(recipeForm));
     navigate('/recipes');
   }
 
@@ -56,12 +57,12 @@ function AddRecipes() {
       ...recipeForm,
       ingredients: [
         ...recipeForm.ingredients,
-        { ingredient: '', weight: '', list: '' },
+        { ingredient: '', weight: 0, list: '' },
       ],
     });
   }
   function newIngredientInput() {
-    return recipeForm.ingredients.map((ing, i) => (
+    return recipeForm.ingredients.map((ing: Ingredient, i: number) => (
       <FormControl
         className="formGroup ingredientInput"
         key={'ingredient ' + i}
@@ -88,7 +89,7 @@ function AddRecipes() {
             const newIngredients = [...recipeForm.ingredients];
             newIngredients[i] = {
               ...newIngredients[i],
-              weight: e.target.value,
+              weight: Number(e.target.value),
             };
             setRecipeForm({ ...recipeForm, ingredients: newIngredients });
           }}
@@ -118,7 +119,7 @@ function AddRecipes() {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="addRecipeForm">
-      <FormControl isInvalid={errors.recipeName} className="formGroup">
+      <FormControl isInvalid={Boolean(errors.recipeName)} className="formGroup">
         <FormLabel htmlFor="recipeName" className="label">
           Recipe Name
         </FormLabel>
@@ -131,7 +132,7 @@ function AddRecipes() {
             validate: {
               uniqueName: value =>
                 !recipes
-                  .map(recipe => recipe.name.toLowerCase())
+                  .map((recipe: Recipe) => recipe.name.toLowerCase())
                   .includes(value.toLowerCase()) ||
                 'Recipe name must be unique',
             },
@@ -139,10 +140,10 @@ function AddRecipes() {
           onChange={e => setRecipeForm({ ...recipeForm, name: e.target.value })}
         />
         <FormErrorMessage className="errorMessage">
-          {errors.recipeName && errors.recipeName.message}
+          {/* {errors.recipeName && errors.recipeName.message} */}
         </FormErrorMessage>
       </FormControl>
-      <FormControl isInvalid={errors.recipeType} className="formGroup">
+      <FormControl isInvalid={Boolean(errors.recipeType)} className="formGroup">
         <FormLabel htmlFor="recipeType" className="label">
           Recipe Type
         </FormLabel>
@@ -160,10 +161,10 @@ function AddRecipes() {
           <option value="Dessert">Dessert</option>
         </Select>
         <FormErrorMessage className="errorMessage">
-          {errors.recipeType && errors.recipeType.message}
+          {/* {errors.recipeType && errors.recipeType.message} */}
         </FormErrorMessage>
       </FormControl>
-      <FormControl isInvalid={errors.portions} className="formGroup">
+      <FormControl isInvalid={Boolean(errors.portions)} className="formGroup">
         <FormLabel htmlFor="portions" className="label">
           Portions
         </FormLabel>
@@ -177,11 +178,11 @@ function AddRecipes() {
           })}
           value={recipeForm.portions}
           onChange={e =>
-            setRecipeForm({ ...recipeForm, portions: e.target.value })
+            setRecipeForm({ ...recipeForm, portions: Number(e.target.value) })
           }
         />
         <FormErrorMessage className="errorMessage">
-          {errors.portions && errors.portions.message}
+          {/* {errors.portions && errors.portions.message} */}
         </FormErrorMessage>
       </FormControl>
       <FormControl className="formGroup">
@@ -221,7 +222,7 @@ function AddRecipes() {
         </FormLabel>
         <CheckboxGroup
           value={recipeForm.allergens}
-          onChange={newAllergens => {
+          onChange={(newAllergens: string[]) => {
             setRecipeForm({ ...recipeForm, allergens: newAllergens });
           }}
         >

@@ -1,13 +1,18 @@
-export function convertArrayIntoKeyValue(ingredients) {
-  const result = {};
+export function convertArrayIntoKeyValue(
+  ingredients: string[][]
+): Record<string, Record<string, number>> {
+  const result: Record<string, Record<string, number>> = {};
+
   for (const key in ingredients) {
     const ingredientKey = ingredients[key];
-    const keyValuePairs = {};
+    const keyValuePairs: Record<string, number> = {};
+
     ingredientKey.forEach(value => {
-      keyValuePairs[value] = 0;
+      keyValuePairs[value] = 1;
     });
 
     result[key] = keyValuePairs;
   }
+
   return result;
 }

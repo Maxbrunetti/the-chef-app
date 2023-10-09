@@ -1,44 +1,71 @@
-const updateUserIngredients = function (arr) {
+import { Recipe, Ingredient } from '../store/recipes-slice';
+
+interface IngredientList {
+  vegetables: string[];
+  meat: string[];
+  fish: string[];
+  spices: string[];
+  misc: string[];
+}
+
+const updateUserIngredients = function (arr: Recipe[]): IngredientList {
   if (!arr) {
-    return;
+    return {
+      vegetables: [],
+      meat: [],
+      fish: [],
+      spices: [],
+      misc: [],
+    };
   }
-  const vegetables = new Set();
-  const meat = new Set();
-  const fish = new Set();
-  const spices = new Set();
-  const misc = new Set();
-  arr.forEach(recipe => {
-    recipe.ingredients.forEach(ingredient => {
-      const { list, ingredient: ingredientName } = ingredient;
+
+  const vegetables = new Set<string>();
+  const meat = new Set<string>();
+  const fish = new Set<string>();
+  const spices = new Set<string>();
+  const misc = new Set<string>();
+
+  arr.forEach((recipe: Recipe) => {
+    recipe.ingredients.forEach((ingredient: Ingredient) => {
+      const list = ingredient.list;
+      const ingredientName: string = ingredient.ingredient;
 
       switch (list) {
         case 'vegetables':
-          return vegetables.add(ingredientName);
+          vegetables.add(ingredientName);
+          break;
         case 'meat':
-          return meat.add(ingredientName);
+          meat.add(ingredientName);
+          break;
         case 'fish':
-          return fish.add(ingredientName);
+          fish.add(ingredientName);
+          break;
         case 'spices':
-          return spices.add(ingredientName);
+          spices.add(ingredientName);
+          break;
         case 'misc':
-          return misc.add(ingredientName);
+          misc.add(ingredientName);
+          break;
         default:
-          return '';
+          break;
       }
     });
   });
-  function sortIngredients(array) {
+
+  function sortIngredients(array: string[]): string[] {
     const sortedArray = [...array];
     sortedArray.sort((a, b) => (a < b ? -1 : 1));
     return sortedArray;
   }
-  const newList = {
-    vegetables: sortIngredients(vegetables),
-    meat: sortIngredients(meat),
-    fish: sortIngredients(fish),
-    spices: sortIngredients(spices),
-    misc: sortIngredients(misc),
+
+  const newList: IngredientList = {
+    vegetables: sortIngredients(Array.from(vegetables)),
+    meat: sortIngredients(Array.from(meat)),
+    fish: sortIngredients(Array.from(fish)),
+    spices: sortIngredients(Array.from(spices)),
+    misc: sortIngredients(Array.from(misc)),
   };
+
   return newList;
 };
 

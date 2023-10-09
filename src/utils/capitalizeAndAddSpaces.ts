@@ -1,4 +1,4 @@
-export default function capitalizeAndAddSpaces(inputText) {
+export default function capitalizeAndAddSpaces(inputText: string) {
   const text = inputText.toLowerCase();
   let result = '';
   result += text.charAt(0).toUpperCase();
