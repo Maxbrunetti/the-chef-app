@@ -12,18 +12,19 @@ import AddRecipes from './pages/Recipes/AddRecipes';
 import Order from './pages/Order/Order';
 import RecipeSelected from './pages/Recipes/RecipeSelected';
 import EditRecipe from './pages/Recipes/EditRecipe';
+import { RootState } from './store/recipes-slice';
 
 let isInitial = true;
 
 function App() {
   const dispatch = useDispatch();
-  const recipes = useSelector(state => state.recipes.recipes);
-  const state = useSelector(state => state.recipes);
-  const order = useSelector(state => state.recipes.order);
+  const recipes = useSelector((state: RootState) => state.recipes.recipes);
+  const state = useSelector((state: RootState) => state.recipes);
+  const order = useSelector((state: RootState) => state.recipes.order);
 
   // Fetch user data
   useEffect(() => {
-    dispatch(fetchUserData());
+    dispatch<any>(fetchUserData());
   }, [dispatch]);
 
   // Send user data

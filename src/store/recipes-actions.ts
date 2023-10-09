@@ -1,7 +1,7 @@
-import { recipesActions } from './recipes-slice';
+import { RootState, recipesActions, RecipesSliceState } from './recipes-slice';
 const apiKey = process.env.REACT_APP_FIREBASE_DATABASE;
 
-export async function sendUserData(userData: []) {
+export async function sendUserData(userData: RecipesSliceState) {
   try {
     const response = await fetch(apiKey + 'user.json', {
       method: 'PUT',

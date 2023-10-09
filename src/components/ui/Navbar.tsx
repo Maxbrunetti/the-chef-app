@@ -3,10 +3,11 @@ import './../../styles/Navbar.css';
 import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { RootState } from '../../store/recipes-slice';
 
 function Navbar() {
   const list = useSelector(
-    state => state.recipes.lists[state.recipes.currentList]
+    (state: RootState) => state.recipes.lists[state.recipes.currentList]
   );
   const location = useLocation();
   const [menuOpen, setMenuOpen] = useState(false);

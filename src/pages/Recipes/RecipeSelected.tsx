@@ -2,16 +2,18 @@ import './../../styles/Recipes.css';
 import { useNavigate } from 'react-router-dom';
 import Popup from 'reactjs-popup';
 import { useDispatch } from 'react-redux';
-import { recipesActions } from '../../store/recipes-slice';
+import { RootState, recipesActions } from '../../store/recipes-slice';
 import { useSelector } from 'react-redux/es/hooks/useSelector';
 function RecipeSelected() {
-  const recipes = useSelector(state => state.recipes.recipes);
-  const recipeSelected = useSelector(state => state.recipes.recipeSelected);
+  const recipes = useSelector((state: RootState) => state.recipes.recipes);
+  const recipeSelected = useSelector(
+    (state: RootState) => state.recipes.recipeSelected
+  );
 
   const dispatch = useDispatch();
 
   function deleteRecipe() {
-    dispatch(recipesActions.deleteRecipe(recipeSelected));
+    dispatch(recipesActions.deleteRecipe<any>(recipeSelected));
     navigate('/recipes');
   }
 
@@ -50,7 +52,7 @@ function RecipeSelected() {
             modal
             nested
           >
-            {close => (
+            {(close: any) => (
               <div className="confirmDeleteContainer">
                 <p style={{ fontWeight: 600 }}>
                   Are you sure you want to delete this recipe?

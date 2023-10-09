@@ -25,7 +25,7 @@ interface IngredientsState {
   misc: string[];
 }
 
-interface RecipesSliceState {
+export interface RecipesSliceState {
   recipes: Recipe[];
   ingredients: IngredientsState;
   lists: string[];
@@ -38,7 +38,7 @@ export type RootState = {
   recipes: RecipesSliceState;
 };
 
-const recipesInitialState = {
+const recipesInitialState: RecipesSliceState = {
   recipes: [],
   ingredients: {
     vegetables: [],
@@ -80,7 +80,7 @@ const recipesSlice = createSlice({
       state.ingredients = updateUserIngredients(state.recipes);
       state.order = convertArrayIntoKeyValue(state.ingredients);
     },
-    selectRecipe(state, action) {
+    selectRecipe(state: any, action: any) {
       state.recipeSelected = action.payload;
     },
     changeList(state) {
