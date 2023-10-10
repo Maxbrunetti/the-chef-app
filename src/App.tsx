@@ -34,7 +34,7 @@ function App() {
       return;
     }
     sendUserData(state);
-  }, [recipes, dispatch]);
+  }, [recipes, dispatch, state]);
 
   // Update order
   useEffect(() => {
@@ -44,7 +44,7 @@ function App() {
     return () => {
       clearTimeout(sendDataDelay);
     };
-  }, [order]);
+  }, [order, state]);
 
   return (
     <>

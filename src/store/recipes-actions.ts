@@ -1,4 +1,4 @@
-import { RootState, recipesActions, RecipesSliceState } from './recipes-slice';
+import { recipesActions, RecipesSliceState } from './recipes-slice';
 const apiKey = process.env.REACT_APP_FIREBASE_DATABASE;
 
 export async function sendUserData(userData: RecipesSliceState) {

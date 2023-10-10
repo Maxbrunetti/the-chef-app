@@ -7,9 +7,5 @@
     "strict": true,
     "esModuleInterop": true
   },
-  "include": ["./src/**/*"],
-  "resolutions": {
-    "@types/react-dom": "^18.0.8",
-    "@types/react": "^18.0.8"
-  }
+  "include": ["./src/**/*"]
 }

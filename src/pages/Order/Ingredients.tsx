@@ -120,7 +120,7 @@ function Ingredients() {
     return ingredients;
   }
 
-  return displayIngredients(order[list]);
+  return <>{displayIngredients(order[list])}</>;
 }
 
 export default Ingredients;
