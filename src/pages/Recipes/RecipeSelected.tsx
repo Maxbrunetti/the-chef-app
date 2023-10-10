@@ -1,9 +1,11 @@
 import './../../styles/Recipes.css';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import Popup from 'reactjs-popup';
 import { useDispatch } from 'react-redux';
 import { RootState, recipesActions } from '../../store/recipes-slice';
 import { useSelector } from 'react-redux/es/hooks/useSelector';
+
 function RecipeSelected() {
   const recipes = useSelector((state: RootState) => state.recipes.recipes);
   const recipeSelected = useSelector(
@@ -18,6 +20,23 @@ function RecipeSelected() {
   }
 
   const navigate = useNavigate();
+
+  const popupBody: any = (close: () => void) => (
+    <div className="confirmDeleteContainer">
+      <p style={{ fontWeight: 600 }}>
+        Are you sure you want to delete this recipe?
+      </p>
+      <p>This will also remove its ingredients from the order list.</p>
+      <div>
+        <button className="btn btnDelete" onClick={deleteRecipe}>
+          Confirm
+        </button>
+        <button className="btn" onClick={close}>
+          Cancel
+        </button>
+      </div>
+    </div>
+  );
 
   if (recipeSelected) {
     const [currentRecipe] = recipes.filter(
@@ -52,24 +71,7 @@ function RecipeSelected() {
             modal
             nested
           >
-            {(close: any) => (
-              <div className="confirmDeleteContainer">
-                <p style={{ fontWeight: 600 }}>
-                  Are you sure you want to delete this recipe?
-                </p>
-                <p>
-                  This will also remove its ingredients from the order list.
-                </p>
-                <div>
-                  <button className="btn btnDelete" onClick={deleteRecipe}>
-                    Confirm
-                  </button>
-                  <button className="btn" onClick={close}>
-                    Cancel
-                  </button>
-                </div>
-              </div>
-            )}
+            {popupBody}
           </Popup>
         </div>
         <div className="btnContainer">
@@ -85,6 +87,6 @@ function RecipeSelected() {
         </div>
       </section>
     );
-  }
+  } else return <></>;
 }
 export default RecipeSelected;

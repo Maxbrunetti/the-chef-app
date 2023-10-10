@@ -31,7 +31,8 @@ export interface RecipesSliceState {
   lists: string[];
   currentList: number;
   recipeSelected: string;
-  order: Record<string, Record<string, number>>;
+  order: any;
+  // order: Record<string, Record<string, number>>;
 }
 
 export type RootState = {

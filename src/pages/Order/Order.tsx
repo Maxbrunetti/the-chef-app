@@ -1,23 +1,48 @@
 import './../../styles/Order.css';
-import React from 'react';
 import Popup from 'reactjs-popup';
 import capitalizeAndAddSpaces from '../../utils/capitalizeAndAddSpaces';
 import Ingredients from './Ingredients';
 import { useDispatch, useSelector } from 'react-redux';
-import { recipesActions } from '../../store/recipes-slice';
+import { RootState, recipesActions } from '../../store/recipes-slice';
 
 function Order() {
+  const popupBody: any = (close: () => void) => (
+    <div className="confirmDeleteContainer">
+      <p style={{ fontWeight: 600 }}>
+        Are you sure you want to clear all orders?
+      </p>
+      <div>
+        <button
+          className="btn btnDelete"
+          onClick={e => {
+            clearOrder();
+            close();
+          }}
+        >
+          Confirm
+        </button>
+        <button className="btn" onClick={close}>
+          Cancel
+        </button>
+      </div>
+    </div>
+  );
+
   const dispatch = useDispatch();
-  const currentList = useSelector(state => state.recipes.currentList);
-  const list = useSelector(state => state.recipes.lists[currentList]);
-  const order = useSelector(state => state.recipes.order);
+  const currentList = useSelector(
+    (state: RootState) => state.recipes.currentList
+  );
+  const list = useSelector(
+    (state: RootState) => state.recipes.lists[currentList]
+  );
+  const order = useSelector((state: RootState) => state.recipes.order);
 
   function clearOrder() {
     dispatch(recipesActions.clearOrder());
   }
 
   function copyList() {
-    let copiedText = [];
+    let copiedText: string | string[] = [];
     for (const key in order[list]) {
       if (order[list][key] === 0) continue;
       copiedText.push(`${capitalizeAndAddSpaces(key)}: ${order[list][key]}kg`);
@@ -35,27 +60,7 @@ function Order() {
           modal
           nested
         >
-          {close => (
-            <div className="confirmDeleteContainer">
-              <p style={{ fontWeight: 600 }}>
-                Are you sure you want to clear all orders?
-              </p>
-              <div>
-                <button
-                  className="btn btnDelete"
-                  onClick={e => {
-                    clearOrder();
-                    close();
-                  }}
-                >
-                  Confirm
-                </button>
-                <button className="btn" onClick={close}>
-                  Cancel
-                </button>
-              </div>
-            </div>
-          )}
+          {popupBody}
         </Popup>
       </div>
       <div className="btnContainer">

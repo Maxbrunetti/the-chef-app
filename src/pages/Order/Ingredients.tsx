@@ -4,7 +4,7 @@ import { RootState, recipesActions } from '../../store/recipes-slice';
 
 function Ingredients() {
   const dispatch = useDispatch();
-  const order = useSelector((state: any) => state.recipes.order);
+  const order = useSelector((state: RootState) => state.recipes.order);
   const currentList = useSelector(
     (state: RootState) => state.recipes.currentList
   );
@@ -55,6 +55,7 @@ function Ingredients() {
 
   function displayIngredients(ingredientsList: string[]) {
     const ingredients = [];
+    if (ingredientsList.length === 0) return <></>;
     if (windowWidth < desktopScreen) {
       // Mobile
       for (const key in ingredientsList) {
